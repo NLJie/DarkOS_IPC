@@ -1,7 +1,7 @@
 /**********************************************************************************
 *	Copyright (c) PanGu Tech. Co., Ltd. 2026-2026+3. All rights reserved.
-*	Desc:		app_runtime_config.h
-*	FileName:	config.h
+*	Desc:		应用运行时配置头文件
+*	FileName:	app_runtime_config.h
 *	Author:		NLJie
 *	Date:		2026-03-09
 **********************************************************************************/
