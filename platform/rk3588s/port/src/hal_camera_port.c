@@ -1,4 +1,11 @@
-// platforms/rk3576/port/src/hal_camera_port.c
+/**********************************************************************************
+*	Copyright (c) PanGu Tech. Co., Ltd. 2026-2026+3. All rights reserved.
+*	Desc:		rk3588 摄像头 硬件层
+*	FileName:	hal_camera_port.c
+*	Author:		NLJie
+*	Date:		10-03-10
+**********************************************************************************/
+
 #include <stdlib.h>
 
 #include "hal_camera.h"

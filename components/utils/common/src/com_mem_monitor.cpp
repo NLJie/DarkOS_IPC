@@ -29,7 +29,22 @@ static int parse_kb_value(const char* line, const char* key, size_t* out_val) {
     return 0;
 }
 
-int com_mem_get_usage(CommonMemoryUsage* usage) {
+static int parse_uint_value(const char* line, const char* key, unsigned int* out_val) {
+    // 例: "Threads:	4"
+    if (strncmp(line, key, strlen(key)) != 0) {
+        return -1;
+    }
+
+    unsigned int val = 0;
+    if (sscanf(line + strlen(key), "%u", &val) != 1) {
+        return -1;
+    }
+
+    *out_val = val;
+    return 0;
+}
+
+int com_mem_get_usage(ComMemUsage* usage) {
     if (usage == NULL) {
         return -1;
     }
@@ -47,6 +62,9 @@ int com_mem_get_usage(CommonMemoryUsage* usage) {
         (void)parse_kb_value(line, "VmRSS:",  &usage->vm_rss_kb);
         (void)parse_kb_value(line, "VmPeak:", &usage->vm_peak_kb);
         (void)parse_kb_value(line, "VmHWM:",  &usage->vm_hwm_kb);
+        (void)parse_kb_value(line, "VmData:", &usage->vm_data_kb);
+        (void)parse_kb_value(line, "VmStk:",  &usage->vm_stk_kb);
+        (void)parse_uint_value(line, "Threads:", &usage->threads);
     }
 
     fclose(fp);
@@ -80,7 +98,7 @@ static void* monitor_thread_main(void* arg) {
             break;
         }
 
-        CommonMemoryUsage usage;
+        ComMemUsage usage;
         if (cb != NULL && com_mem_get_usage(&usage) == 0) {
             cb(&usage, user);
         }
@@ -113,7 +131,14 @@ int com_mem_monitor_start(unsigned int interval_ms,
     g_user_data = user_data;
     g_stop_requested = false;
 
-    if (pthread_create(&g_monitor_thread, NULL, monitor_thread_main, NULL) != 0) {
+    pthread_attr_t attr;
+    pthread_attr_init(&attr);
+    pthread_attr_setstacksize(&attr, 64 * 1024); // 64KB，远大于实际需求
+
+    int ret = pthread_create(&g_monitor_thread, &attr, monitor_thread_main, NULL);
+    pthread_attr_destroy(&attr);
+
+    if (ret != 0) {
         g_callback = NULL;
         g_user_data = NULL;
         pthread_mutex_unlock(&g_monitor_lock);
