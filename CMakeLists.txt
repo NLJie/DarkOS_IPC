@@ -12,9 +12,13 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# 设置平台相关的编译选项
-option(PG_HAL_USE_X86 "Use X86 HAL port implementation" ON)
-option(PG_HAL_USE_RK3588S "Use RK3588S HAL port implementation" OFF)
+# 平台选择（三选一）
+option(PG_HAL_USE_X86     "Use X86 V4L2 HAL implementation"      ON)
+option(PG_HAL_USE_RK3588S "Use RK3588S HAL port implementation"  OFF)
+
+if(PG_HAL_USE_X86 AND PG_HAL_USE_RK3588S)
+	message(FATAL_ERROR "PG_HAL_USE_X86 and PG_HAL_USE_RK3588S cannot both be ON.")
+endif()
 
 if(PG_HAL_USE_X86)
 	add_subdirectory(platform/x86)

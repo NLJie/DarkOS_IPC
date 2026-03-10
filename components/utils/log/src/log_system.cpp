@@ -330,7 +330,7 @@ void log_system_output(LogLevel level, const char* file, int line,
         return;
     }
 
-    char timestamp[64] = {0};
+    char timestamp[128] = {0};
     if (g_log_state.enable_timestamp) {
         get_timestamp(timestamp, sizeof(timestamp), g_log_state.timestamp_precision);
     }

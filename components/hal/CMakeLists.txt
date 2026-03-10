@@ -22,6 +22,26 @@ if(PG_HAL_USE_RK3588S)
 	)
 
 	target_compile_definitions(hal_camera PRIVATE PG_HAL_IMPL_RK3588S=1)
+
+elseif(PG_HAL_USE_X86)
+	target_include_directories(hal_camera
+		PRIVATE
+			${CMAKE_SOURCE_DIR}/components/utils/log/include
+	)
+
+	if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+		set(HAL_CAMERA_IMPL_SRC
+			${CMAKE_SOURCE_DIR}/platform/x86/port/src/hal_camera_win.cpp)
+		target_link_libraries(hal_camera
+			PRIVATE mf mfplat mfreadwrite mfuuid ole32)
+	else()
+		# Linux / Ubuntu
+		set(HAL_CAMERA_IMPL_SRC
+			${CMAKE_SOURCE_DIR}/platform/x86/port/src/hal_camera_linux.c)
+	endif()
+
+	target_compile_definitions(hal_camera PRIVATE PG_HAL_IMPL_X86=1)
+
 else()
 	target_compile_definitions(hal_camera PRIVATE PG_HAL_IMPL_STUB=1)
 endif()
