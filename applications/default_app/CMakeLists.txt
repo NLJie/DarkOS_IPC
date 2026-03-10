@@ -5,6 +5,7 @@ add_executable(default_app
 
 target_link_libraries(default_app
     PRIVATE
+        common
         hal_camera
         log_system
 )

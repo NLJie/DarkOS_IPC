@@ -13,7 +13,7 @@
 #include "log_system.h"
 
 // ==================== 日志文件路径配置 ====================
-#define LOG_DIR                 "."     // 日志根目录
+#define LOG_DIR                 "./log"     // 日志根目录
 #define LOG_FILE_PATH           LOG_DIR "/app.log"      // 主日志文件
 #define ERROR_LOG_FILE_PATH     LOG_DIR "/app_err.log"  // 错误日志文件
 

@@ -66,6 +66,20 @@ static const char* log_level_names[] = {
     "ERROR"
 };
 
+// 控制台颜色（仅用于终端输出）
+#define LOG_COLOR_RESET  "\033[0m"
+#define LOG_COLOR_DEBUG  "\033[36m"    // 青色
+#define LOG_COLOR_INFO   "\033[32m"    // 绿色
+#define LOG_COLOR_WARN   "\033[33m"    // 黄色
+#define LOG_COLOR_ERROR  "\033[31m"    // 红色
+
+static const char* log_level_colors[] = {
+    LOG_COLOR_DEBUG,
+    LOG_COLOR_INFO,
+    LOG_COLOR_WARN,
+    LOG_COLOR_ERROR,
+};
+
 // 获取时间戳字符串
 static void get_timestamp(char* buffer, size_t size, LogTimestampPrecision precision)
 {
@@ -336,13 +350,17 @@ void log_system_output(LogLevel level, const char* file, int line,
     // 输出到控制台
     if (g_log_state.enable_console) {
         FILE* output = (level >= LOG_LEVEL_ERROR) ? stderr : stdout;
-        
+        const char* color = (level >= LOG_LEVEL_DEBUG && level <= LOG_LEVEL_ERROR)
+                             ? log_level_colors[level] : LOG_COLOR_RESET;
+
         if (g_log_state.enable_timestamp) {
-            fprintf(output, "[%s] [%s] [%s:%d %s] %s\n", 
-                    timestamp, level_name, filename, line, func, message);
+            fprintf(output, "%s[%s] [%s] [%s:%d %s]%s %s\n",
+                    color, timestamp, level_name, filename, line, func,
+                    LOG_COLOR_RESET, message);
         } else {
-            fprintf(output, "[%s] [%s:%d %s] %s\n", 
-                    level_name, filename, line, func, message);
+            fprintf(output, "%s[%s] [%s:%d %s]%s %s\n",
+                    color, level_name, filename, line, func,
+                    LOG_COLOR_RESET, message);
         }
         fflush(output);
     }
