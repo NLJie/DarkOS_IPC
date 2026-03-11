@@ -1,90 +1,84 @@
 #include <csignal>
 #include <cstring>
-#include <iostream>
+#include <cstdio>
 #include <unistd.h>
 
+#include "pg_json.h"
+#include "pg_device_config.h"
 #include "app_camera.h"
 #include "app_mem.h"
-#include "app_runtime_config.h"
 #include "com_mem_monitor.h"
 #include "log_system.h"
 
 static volatile sig_atomic_t g_running = 1;
 
-static void signal_handler(int sig)
-{
-    (void)sig;
-    g_running = 0;
-}
-
-static void print_usage(const char *prog)
-{
-    fprintf(stderr, "Usage: %s [--config <device_json_path>]\n", prog);
-    fprintf(stderr, "  --config   设备配置文件路径 (默认: 使用编译期默认值)\n");
-    fprintf(stderr, "  Example: %s --config configs/device_x86_usb_cam_v1.json\n", prog);
-}
+static void signal_handler(int sig) { (void)sig; g_running = 0; }
 
 int main(int argc, char *argv[])
 {
     signal(SIGINT,  signal_handler);
     signal(SIGTERM, signal_handler);
 
-    // 解析命令行参数
-    const char *config_path = nullptr;
+    /* ---- 解析 --config 参数 ---- */
+    const char *config_path = NULL;
     for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], "--config") == 0 && i + 1 < argc) {
             config_path = argv[++i];
-        } else if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0) {
-            print_usage(argv[0]);
+        } else if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0) {
+            fprintf(stderr, "Usage: %s [--config <device_json>]\n", argv[0]);
             return 0;
         }
     }
 
-    // 加载配置 (JSON 覆盖默认值)
-    if (app_runtime_config_load(config_path) != 0) {
-        fprintf(stderr, "Warning: config load failed, using defaults\n");
+    /* ---- 加载设备配置 ---- */
+    if (pg_json_load(config_path) != 0) {
+        fprintf(stderr, "[main] config load failed, using defaults\n");
     }
-    const AppRuntimeConfig &cfg = app_runtime_config_get();
 
-    if (log_system_init(&cfg.log_cfg) != 0) {
-        std::cerr << "Failed to initialize log system" << std::endl;
+    /* ---- 初始化日志 (配置从 JSON 的 log.* 读取) ---- */
+    LogConfig log_cfg;
+    pg_dev_cfg_fill_log_config(&log_cfg);
+    if (log_system_init(&log_cfg) != 0) {
+        fprintf(stderr, "[main] log system init failed\n");
         return 1;
     }
 
+    LOG_INFO("Device: %s", pg_json_get_string("device_name", "unknown"));
     if (config_path) {
-        LOG_INFO("Loaded device config: %s", config_path);
+        LOG_INFO("Config: %s", config_path);
+    }
+
+    /* ---- 摄像头: 按数组动态处理 ---- */
+    int cam_count = pg_json_array_len("cameras");
+    LOG_INFO("Camera count: %d", cam_count);
+
+    void *cam = NULL;
+    if (cam_count > 0) {
+        HalCamConfig cam_cfg;
+        pg_dev_cfg_fill_cam_config(0, &cam_cfg);   /* 当前只用第 0 路 */
+        cam = open_camera(cam_cfg);
+        if (cam) read_frame_once(cam);
     } else {
-        LOG_INFO("No config file specified, using defaults");
-    }
-    LOG_INFO("Camera: %dx%d @ %.1ffps", cfg.cam_cfg.width, cfg.cam_cfg.height, cfg.cam_cfg.fps);
-    LOG_INFO("Application started");
-
-    void *cam = open_camera(cfg.cam_cfg);
-    if (cam == nullptr) {
-        log_system_shutdown();
-        return 1;
+        LOG_INFO("No camera configured, skipping camera init");
     }
 
-    read_frame_once(cam);
-
-    if (com_mem_monitor_start(5000, app_mem_report_cb, nullptr) != 0) {
+    /* ---- 内存监控 ---- */
+    if (com_mem_monitor_start(5000, app_mem_report_cb, NULL) != 0) {
         LOG_WARN("com_mem_monitor_start failed");
     }
 
+    /* ---- 主循环 ---- */
     LOG_INFO("Running. Press Ctrl+C to stop.");
     while (g_running) {
         sleep(1);
     }
     LOG_INFO("Shutting down...");
 
-    (void)com_mem_monitor_stop();
-
-    LOG_INFO("Closing camera");
-    hal_cam_close(cam);
-
-    LOG_INFO("Application finished. Logs: %s / %s",
-             cfg.log_cfg.log_file_path, cfg.log_cfg.error_file_path);
-
+    /* ---- 清理 ---- */
+    com_mem_monitor_stop();
+    if (cam) hal_cam_close(cam);
+    pg_json_unload();
     log_system_shutdown();
+
     return 0;
 }

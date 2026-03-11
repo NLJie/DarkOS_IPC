@@ -26,8 +26,9 @@ add_subdirectory(third_party/cJSON)
 
 # 加载框架核心
 add_subdirectory(core/hal)
-add_subdirectory(core/utils)
+add_subdirectory(core/utils)       # 含 log / common / json
 add_subdirectory(core/event_bus)
+add_subdirectory(core/device_config)
 
 # 加载产品声明 (设置 PG_ENABLE_xxx 变量)
 include(products/${PG_PRODUCT}/product.cmake)

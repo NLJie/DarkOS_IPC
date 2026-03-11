@@ -7,15 +7,20 @@
     "max_size_mb":  1,
     "max_backups":  3,
     "console":      true,
+    "file":         true,
+    "time":         true,
     "timestamp_ms": false
   },
 
-  "camera": {
-    "width":    1920,
-    "height":   1080,
-    "fps":      25.0,
-    "dev_path": ""
-  },
+  "cameras": [
+    {
+      "dev_path":     "",
+      "width":        1920,
+      "height":       1080,
+      "fps":          25.0,
+      "pixel_format": 0
+    }
+  ],
 
   "paths": {
     "data_dir":  "/var/lib/pg_camera",

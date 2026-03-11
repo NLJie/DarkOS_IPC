@@ -10,12 +10,15 @@
     "timestamp_ms": true
   },
 
-  "camera": {
-    "width":    2560,
-    "height":   1440,
-    "fps":      30.0,
-    "dev_path": "/dev/video0"
-  },
+  "cameras": [
+    {
+      "dev_path":     "/dev/video0",
+      "width":        2560,
+      "height":       1440,
+      "fps":          30.0,
+      "pixel_format": 0
+    }
+  ],
 
   "paths": {
     "data_dir":  "/userdata/pg_camera",
