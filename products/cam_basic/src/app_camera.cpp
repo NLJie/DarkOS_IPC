@@ -6,7 +6,9 @@
 
 void* open_camera(const HalCamConfig& cfg)
 {
-    LOG_INFO("Opening camera device: %s", cfg.dev_path);
+    LOG_INFO("Opening camera device (interface=%d): %s",
+             cfg.interface,
+             cfg.interface == HAL_CAM_IF_RTSP ? cfg.rtsp.url : cfg.usb.dev_path);
     void* cam = hal_cam_open(&cfg);
     if (cam == nullptr) {
         LOG_ERROR("hal_cam_open failed");

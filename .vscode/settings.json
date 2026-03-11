@@ -4,6 +4,11 @@
         "**/*.log": true,
         "CLAUDE.md": true,
 
+        // 隐藏 products 目录下的文件夹
+        "products/cam_basic": false,
+        "products/cam_streaming": true,
+        "products/cam_ai": true,
+
         // 隐藏根目录下的文件夹
         "build": true,
         ".claude": true,

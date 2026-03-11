@@ -16,7 +16,7 @@ static void signal_handler(int sig)
     g_running = 0;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
     signal(SIGINT,  signal_handler);
     signal(SIGTERM, signal_handler);

@@ -1,0 +1,14 @@
+ set(CMAKE_SYSTEM_NAME Linux)
+  set(CMAKE_SYSTEM_PROCESSOR aarch64)
+
+  set(CROSS_PREFIX aarch64-rockchip1031-linux-gnueabihf)
+
+  set(CMAKE_C_COMPILER   ${CROSS_PREFIX}-gcc)
+  set(CMAKE_CXX_COMPILER ${CROSS_PREFIX}-g++)
+  set(CMAKE_AR           ${CROSS_PREFIX}-ar)
+  set(CMAKE_STRIP        ${CROSS_PREFIX}-strip)
+
+  # 告诉 CMake 在哪里找目标平台的库（不要用宿主机的库）
+  set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+  set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+  set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)

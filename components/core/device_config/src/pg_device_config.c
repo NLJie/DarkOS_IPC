@@ -54,24 +54,64 @@ int pg_dev_cfg_fill_log_config(LogConfig *out)
     return 0;
 }
 
+static HalCamInterface parse_interface(const char *s)
+{
+    if (!s || strcmp(s, "usb") == 0)     return HAL_CAM_IF_USB;
+    if (strcmp(s, "mipi")    == 0)       return HAL_CAM_IF_MIPI;
+    if (strcmp(s, "dvp")     == 0)       return HAL_CAM_IF_DVP;
+    if (strcmp(s, "rtsp")    == 0)       return HAL_CAM_IF_RTSP;
+    if (strcmp(s, "virtual") == 0)       return HAL_CAM_IF_VIRTUAL;
+    return HAL_CAM_IF_USB;
+}
+
 int pg_dev_cfg_fill_cam_config(int idx, HalCamConfig *out)
 {
     if (!out || idx < 0 || idx >= pg_json_array_len("cameras")) return -1;
 
     char key[64];
+    memset(out, 0, sizeof(*out));
 
 #define CAM(field) (snprintf(key, sizeof(key), "cameras[%d]." field, idx), key)
 
+    /* 通用参数 */
+    out->interface    = parse_interface(pg_json_get_string(CAM("interface"), "usb"));
     out->width        = pg_json_get_int   (CAM("width"),        1920);
     out->height       = pg_json_get_int   (CAM("height"),       1080);
     out->fps          = (float)pg_json_get_double(CAM("fps"),   25.0);
     out->pixel_format = pg_json_get_int   (CAM("pixel_format"), 0);
 
-    const char *dev = pg_json_get_string(CAM("dev_path"), "");
-    strncpy(out->dev_path, dev, sizeof(out->dev_path) - 1);
-    out->dev_path[sizeof(out->dev_path) - 1] = '\0';
+    /* 接口专属参数 */
+    switch (out->interface) {
+    case HAL_CAM_IF_USB:
+    case HAL_CAM_IF_DVP: {
+        const char *dev = pg_json_get_string(CAM("dev_path"), "");
+        strncpy(out->usb.dev_path, dev, sizeof(out->usb.dev_path) - 1);
+        break;
+    }
+    case HAL_CAM_IF_MIPI: {
+        const char *dev = pg_json_get_string(CAM("dev_path"), "");
+        strncpy(out->mipi.dev_path, dev, sizeof(out->mipi.dev_path) - 1);
+        out->mipi.lanes = pg_json_get_int(CAM("mipi_lanes"), 2);
+        const char *sensor = pg_json_get_string(CAM("sensor"), "");
+        strncpy(out->mipi.sensor, sensor, sizeof(out->mipi.sensor) - 1);
+        break;
+    }
+    case HAL_CAM_IF_RTSP: {
+        const char *url  = pg_json_get_string(CAM("rtsp_url"),  "");
+        const char *user = pg_json_get_string(CAM("username"),  "");
+        const char *pass = pg_json_get_string(CAM("password"),  "");
+        strncpy(out->rtsp.url,      url,  sizeof(out->rtsp.url)      - 1);
+        strncpy(out->rtsp.username, user, sizeof(out->rtsp.username)  - 1);
+        strncpy(out->rtsp.password, pass, sizeof(out->rtsp.password)  - 1);
+        break;
+    }
+    case HAL_CAM_IF_VIRTUAL: {
+        const char *fp = pg_json_get_string(CAM("file_path"), "");
+        strncpy(out->virt.file_path, fp, sizeof(out->virt.file_path) - 1);
+        break;
+    }
+    }
 
 #undef CAM
-
     return 0;
 }

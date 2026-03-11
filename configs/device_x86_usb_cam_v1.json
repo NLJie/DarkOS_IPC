@@ -7,13 +7,12 @@
     "max_size_mb":  1,
     "max_backups":  3,
     "console":      true,
-    "file":         true,
-    "time":         true,
     "timestamp_ms": false
   },
 
   "cameras": [
     {
+      "interface":    "usb",
       "dev_path":     "",
       "width":        1920,
       "height":       1080,

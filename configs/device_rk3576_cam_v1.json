@@ -12,9 +12,12 @@
 
   "cameras": [
     {
+      "interface":    "mipi",
       "dev_path":     "/dev/video0",
-      "width":        2560,
-      "height":       1440,
+      "mipi_lanes":   4,
+      "sensor":       "imx415",
+      "width":        3840,
+      "height":       2160,
       "fps":          30.0,
       "pixel_format": 0
     }

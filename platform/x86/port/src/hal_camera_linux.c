@@ -115,7 +115,7 @@ void* hal_cam_open(const HalCamConfig* cfg)
     if (cfg == NULL) return NULL;
 
     char dev[64] = {0};
-    int fd = resolve_camera_fd(cfg->dev_path, dev, sizeof(dev));
+    int fd = resolve_camera_fd(cfg->usb.dev_path, dev, sizeof(dev));
     if (fd < 0) return NULL;
 
     // 设置采集格式（YUYV 兼容性最广）
@@ -162,7 +162,7 @@ void* hal_cam_open(const HalCamConfig* cfg)
     ctx->fd        = fd;
     ctx->cfg       = *cfg;
     ctx->n_buffers = req.count;
-    strncpy(ctx->cfg.dev_path, dev, sizeof(ctx->cfg.dev_path) - 1);
+    strncpy(ctx->cfg.usb.dev_path, dev, sizeof(ctx->cfg.usb.dev_path) - 1);
     ctx->cfg.width  = (int)fmt.fmt.pix.width;
     ctx->cfg.height = (int)fmt.fmt.pix.height;
 

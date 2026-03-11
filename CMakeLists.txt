@@ -23,12 +23,13 @@ add_subdirectory(platform/${PG_PLATFORM})
 
 # 第三方库
 add_subdirectory(third_party/cJSON)
+# add_subdirectory(third_party/gsoap)
 
 # 加载框架核心
-add_subdirectory(core/hal)
-add_subdirectory(core/utils)       # 含 log / common / json
-add_subdirectory(core/event_bus)
-add_subdirectory(core/device_config)
+add_subdirectory(components/core/hal)
+add_subdirectory(components/core/utils)       # 含 log / common / json
+add_subdirectory(components/core/event_bus)
+add_subdirectory(components/core/device_config)
 
 # 加载产品声明 (设置 PG_ENABLE_xxx 变量)
 include(products/${PG_PRODUCT}/product.cmake)
