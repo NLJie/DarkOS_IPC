@@ -1,0 +1,12 @@
+prefix=/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: GSoap
+Description: SOAP C++ Web Services with Cookies Enabled
+Version: 2.8.131
+Requires:
+Libs: -L${libdir} -lgsoapck++
+Libs.private: -lm
+Cflags:  -DWITH_COOKIES -DWITH_DOM -I${includedir}

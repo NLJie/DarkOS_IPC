@@ -1,0 +1,326 @@
+Making all in src
+make[1]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/flex-2.6.4/src'
+make  all-am
+make[2]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/flex-2.6.4/src'
+depbase=`echo libmain.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ../libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"   -g -O2 -MT libmain.lo -MD -MP -MF $depbase.Tpo -c -o libmain.lo libmain.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+depbase=`echo libyywrap.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
+/bin/bash ../libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"   -g -O2 -MT libyywrap.lo -MD -MP -MF $depbase.Tpo -c -o libyywrap.lo libyywrap.c &&\
+mv -f $depbase.Tpo $depbase.Plo
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"    -g -O2 -MT flex-buf.o -MD -MP -MF .deps/flex-buf.Tpo -c -o flex-buf.o `test -f 'buf.c' || echo './'`buf.c
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"    -g -O2 -MT flex-ccl.o -MD -MP -MF .deps/flex-ccl.Tpo -c -o flex-ccl.o `test -f 'ccl.c' || echo './'`ccl.c
+mv -f .deps/flex-ccl.Tpo .deps/flex-ccl.Po
+mv -f .deps/flex-buf.Tpo .deps/flex-buf.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"    -g -O2 -MT flex-dfa.o -MD -MP -MF .deps/flex-dfa.Tpo -c -o flex-dfa.o `test -f 'dfa.c' || echo './'`dfa.c
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"    -g -O2 -MT flex-ecs.o -MD -MP -MF .deps/flex-ecs.Tpo -c -o flex-ecs.o `test -f 'ecs.c' || echo './'`ecs.c
+libtool: compile:  gcc -DHAVE_CONFIG_H -I. -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\" -g -O2 -MT libmain.lo -MD -MP -MF .deps/libmain.Tpo -c libmain.c  -fPIC -DPIC -o .libs/libmain.o
+libtool: compile:  gcc -DHAVE_CONFIG_H -I. -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\" -g -O2 -MT libyywrap.lo -MD -MP -MF .deps/libyywrap.Tpo -c libyywrap.c  -fPIC -DPIC -o .libs/libyywrap.o
+libtool: compile:  gcc -DHAVE_CONFIG_H -I. -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\" -g -O2 -MT libyywrap.lo -MD -MP -MF .deps/libyywrap.Tpo -c libyywrap.c -o libyywrap.o >/dev/null 2>&1
+libtool: compile:  gcc -DHAVE_CONFIG_H -I. -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\" -g -O2 -MT libmain.lo -MD -MP -MF .deps/libmain.Tpo -c libmain.c -o libmain.o >/dev/null 2>&1
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"    -g -O2 -MT flex-filter.o -MD -MP -MF .deps/flex-filter.Tpo -c -o flex-filter.o `test -f 'filter.c' || echo './'`filter.c
+mv -f .deps/flex-ecs.Tpo .deps/flex-ecs.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"    -g -O2 -MT flex-gen.o -MD -MP -MF .deps/flex-gen.Tpo -c -o flex-gen.o `test -f 'gen.c' || echo './'`gen.c
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"    -g -O2 -MT flex-main.o -MD -MP -MF .deps/flex-main.Tpo -c -o flex-main.o `test -f 'main.c' || echo './'`main.c
+filter.c: In function ‘filter_fix_linedirs’:
+filter.c:393:68: warning: ‘%s’ directive output may be truncated writing up to 2047 bytes into a region of size between 494 and 503 [-Wformat-truncation=]
+  393 |                                 snprintf (buf, readsz, "#line %d \"%s\"\n",
+      |                                                                    ^~
+  394 |                                           lineno, filename);
+      |                                                   ~~~~~~~~          
+In file included from /usr/include/stdio.h:894,
+                 from flexdef.h:42,
+                 from filter.c:24:
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:71:10: note: ‘__builtin___snprintf_chk’ output between 12 and 2068 bytes into a destination of size 512
+   71 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   72 |                                    __glibc_objsize (__s), __fmt,
+      |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   73 |                                    __va_arg_pack ());
+      |                                    ~~~~~~~~~~~~~~~~~
+mv -f .deps/flex-filter.Tpo .deps/flex-filter.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"    -g -O2 -MT flex-misc.o -MD -MP -MF .deps/flex-misc.Tpo -c -o flex-misc.o `test -f 'misc.c' || echo './'`misc.c
+mv -f .deps/flex-dfa.Tpo .deps/flex-dfa.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"    -g -O2 -MT flex-nfa.o -MD -MP -MF .deps/flex-nfa.Tpo -c -o flex-nfa.o `test -f 'nfa.c' || echo './'`nfa.c
+misc.c: In function ‘line_directive_out’:
+misc.c:369:57: warning: ‘%s’ directive output may be truncated writing up to 2047 bytes into a region of size 2039 [-Wformat-truncation=]
+  369 |                 snprintf (directive, sizeof(directive), line_fmt, 0, filename);
+      |                                                         ^~~~~~~~     ~~~~~~~~
+In file included from /usr/include/stdio.h:894,
+                 from flexdef.h:42,
+                 from misc.c:33:
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:71:10: note: ‘__builtin___snprintf_chk’ output between 12 and 2059 bytes into a destination of size 2048
+   71 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   72 |                                    __glibc_objsize (__s), __fmt,
+      |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   73 |                                    __va_arg_pack ());
+      |                                    ~~~~~~~~~~~~~~~~~
+misc.c:367:57: warning: ‘%s’ directive output may be truncated writing up to 2047 bytes into a region of size between 2029 and 2039 [-Wformat-truncation=]
+  367 |                 snprintf (directive, sizeof(directive), line_fmt, linenum, filename);
+      |                                                         ^~~~~~~~           ~~~~~~~~
+In file included from /usr/include/stdio.h:894,
+                 from flexdef.h:42,
+                 from misc.c:33:
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:71:10: note: ‘__builtin___snprintf_chk’ output between 12 and 2069 bytes into a destination of size 2048
+   71 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   72 |                                    __glibc_objsize (__s), __fmt,
+      |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   73 |                                    __va_arg_pack ());
+      |                                    ~~~~~~~~~~~~~~~~~
+mv -f .deps/flex-main.Tpo .deps/flex-main.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"    -g -O2 -MT flex-options.o -MD -MP -MF .deps/flex-options.Tpo -c -o flex-options.o `test -f 'options.c' || echo './'`options.c
+mv -f .deps/flex-misc.Tpo .deps/flex-misc.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"    -g -O2 -MT flex-parse.o -MD -MP -MF .deps/flex-parse.Tpo -c -o flex-parse.o `test -f 'parse.c' || echo './'`parse.c
+mv -f .deps/flex-nfa.Tpo .deps/flex-nfa.Po
+mv -f .deps/flex-options.Tpo .deps/flex-options.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"    -g -O2 -MT flex-regex.o -MD -MP -MF .deps/flex-regex.Tpo -c -o flex-regex.o `test -f 'regex.c' || echo './'`regex.c
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"    -g -O2 -MT flex-scanflags.o -MD -MP -MF .deps/flex-scanflags.Tpo -c -o flex-scanflags.o `test -f 'scanflags.c' || echo './'`scanflags.c
+parse.y: In function ‘format_warn’:
+parse.y:1061:53: warning: ‘%s’ directive output may be truncated writing up to 2047 bytes into a region of size 2039 [-Wformat-truncation=]
+ 1021 |         lwarn( warn_msg );
+      |                ~~~~~~~~                              
+......
+ 1061 |                 snprintf( warning, sizeof(warning), "warning, %s", str );
+      |                                                     ^~~~~~~~~~~~~
+In file included from /usr/include/stdio.h:894,
+                 from flexdef.h:42,
+                 from parse.y:66:
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:71:10: note: ‘__builtin___snprintf_chk’ output between 10 and 2057 bytes into a destination of size 2048
+   71 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   72 |                                    __glibc_objsize (__s), __fmt,
+      |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   73 |                                    __va_arg_pack ());
+      |                                    ~~~~~~~~~~~~~~~~~
+mv -f .deps/flex-scanflags.Tpo .deps/flex-scanflags.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"    -g -O2 -MT flex-scanopt.o -MD -MP -MF .deps/flex-scanopt.Tpo -c -o flex-scanopt.o `test -f 'scanopt.c' || echo './'`scanopt.c
+mv -f .deps/flex-regex.Tpo .deps/flex-regex.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"    -g -O2 -MT flex-skel.o -MD -MP -MF .deps/flex-skel.Tpo -c -o flex-skel.o `test -f 'skel.c' || echo './'`skel.c
+parse.c: In function ‘yyparse’:
+parse.y:1061:53: warning: ‘%s’ directive output may be truncated writing up to 2047 bytes into a region of size 2039 [-Wformat-truncation=]
+ 1061 |                 snprintf( warning, sizeof(warning), "warning, %s", str );
+      |                                                     ^~~~~~~~~~~~~
+In file included from /usr/include/stdio.h:894,
+                 from flexdef.h:42,
+                 from parse.y:66:
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:71:10: note: ‘__builtin___snprintf_chk’ output between 10 and 2057 bytes into a destination of size 2048
+   71 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   72 |                                    __glibc_objsize (__s), __fmt,
+      |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   73 |                                    __va_arg_pack ());
+      |                                    ~~~~~~~~~~~~~~~~~
+parse.y:360:41: warning: ‘%s’ directive output may be truncated writing up to 2047 bytes into a region of size 2021 [-Wformat-truncation=]
+  360 |                                         "undeclared start condition %s",
+      |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  361 |                                         nmstr );
+      |                                         ~~~~~
+In file included from /usr/include/stdio.h:894,
+                 from flexdef.h:42,
+                 from parse.y:66:
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:71:10: note: ‘__builtin___snprintf_chk’ output between 28 and 2075 bytes into a destination of size 2048
+   71 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   72 |                                    __glibc_objsize (__s), __fmt,
+      |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   73 |                                    __va_arg_pack ());
+      |                                    ~~~~~~~~~~~~~~~~~
+mv -f .deps/flex-skel.Tpo .deps/flex-skel.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"    -g -O2 -MT flex-sym.o -MD -MP -MF .deps/flex-sym.Tpo -c -o flex-sym.o `test -f 'sym.c' || echo './'`sym.c
+mv -f .deps/flex-parse.Tpo .deps/flex-parse.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"    -g -O2 -MT flex-tables.o -MD -MP -MF .deps/flex-tables.Tpo -c -o flex-tables.o `test -f 'tables.c' || echo './'`tables.c
+mv -f .deps/flex-sym.Tpo .deps/flex-sym.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"    -g -O2 -MT flex-tables_shared.o -MD -MP -MF .deps/flex-tables_shared.Tpo -c -o flex-tables_shared.o `test -f 'tables_shared.c' || echo './'`tables_shared.c
+mv -f .deps/flex-scanopt.Tpo .deps/flex-scanopt.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"    -g -O2 -MT flex-tblcmp.o -MD -MP -MF .deps/flex-tblcmp.Tpo -c -o flex-tblcmp.o `test -f 'tblcmp.c' || echo './'`tblcmp.c
+mv -f .deps/flex-gen.Tpo .deps/flex-gen.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"    -g -O2 -MT flex-yylex.o -MD -MP -MF .deps/flex-yylex.Tpo -c -o flex-yylex.o `test -f 'yylex.c' || echo './'`yylex.c
+mv -f .deps/flex-tables_shared.Tpo .deps/flex-tables_shared.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"   -g -O2 -MT stage1flex-scan.o -MD -MP -MF .deps/stage1flex-scan.Tpo -c -o stage1flex-scan.o `test -f 'scan.c' || echo './'`scan.c
+mv -f .deps/flex-tables.Tpo .deps/flex-tables.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"   -g -O2 -MT stage1flex-buf.o -MD -MP -MF .deps/stage1flex-buf.Tpo -c -o stage1flex-buf.o `test -f 'buf.c' || echo './'`buf.c
+mv -f .deps/flex-yylex.Tpo .deps/flex-yylex.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"   -g -O2 -MT stage1flex-ccl.o -MD -MP -MF .deps/stage1flex-ccl.Tpo -c -o stage1flex-ccl.o `test -f 'ccl.c' || echo './'`ccl.c
+mv -f .deps/flex-tblcmp.Tpo .deps/flex-tblcmp.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"   -g -O2 -MT stage1flex-dfa.o -MD -MP -MF .deps/stage1flex-dfa.Tpo -c -o stage1flex-dfa.o `test -f 'dfa.c' || echo './'`dfa.c
+mv -f .deps/stage1flex-buf.Tpo .deps/stage1flex-buf.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"   -g -O2 -MT stage1flex-ecs.o -MD -MP -MF .deps/stage1flex-ecs.Tpo -c -o stage1flex-ecs.o `test -f 'ecs.c' || echo './'`ecs.c
+mv -f .deps/stage1flex-ccl.Tpo .deps/stage1flex-ccl.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"   -g -O2 -MT stage1flex-filter.o -MD -MP -MF .deps/stage1flex-filter.Tpo -c -o stage1flex-filter.o `test -f 'filter.c' || echo './'`filter.c
+mv -f .deps/stage1flex-ecs.Tpo .deps/stage1flex-ecs.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"   -g -O2 -MT stage1flex-gen.o -MD -MP -MF .deps/stage1flex-gen.Tpo -c -o stage1flex-gen.o `test -f 'gen.c' || echo './'`gen.c
+filter.c: In function ‘filter_fix_linedirs’:
+filter.c:393:68: warning: ‘%s’ directive output may be truncated writing up to 2047 bytes into a region of size between 494 and 503 [-Wformat-truncation=]
+  393 |                                 snprintf (buf, readsz, "#line %d \"%s\"\n",
+      |                                                                    ^~
+  394 |                                           lineno, filename);
+      |                                                   ~~~~~~~~          
+In file included from /usr/include/stdio.h:894,
+                 from flexdef.h:42,
+                 from filter.c:24:
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:71:10: note: ‘__builtin___snprintf_chk’ output between 12 and 2068 bytes into a destination of size 512
+   71 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   72 |                                    __glibc_objsize (__s), __fmt,
+      |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   73 |                                    __va_arg_pack ());
+      |                                    ~~~~~~~~~~~~~~~~~
+mv -f .deps/stage1flex-filter.Tpo .deps/stage1flex-filter.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"   -g -O2 -MT stage1flex-main.o -MD -MP -MF .deps/stage1flex-main.Tpo -c -o stage1flex-main.o `test -f 'main.c' || echo './'`main.c
+mv -f .deps/stage1flex-dfa.Tpo .deps/stage1flex-dfa.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"   -g -O2 -MT stage1flex-misc.o -MD -MP -MF .deps/stage1flex-misc.Tpo -c -o stage1flex-misc.o `test -f 'misc.c' || echo './'`misc.c
+misc.c: In function ‘line_directive_out’:
+misc.c:369:57: warning: ‘%s’ directive output may be truncated writing up to 2047 bytes into a region of size 2039 [-Wformat-truncation=]
+  369 |                 snprintf (directive, sizeof(directive), line_fmt, 0, filename);
+      |                                                         ^~~~~~~~     ~~~~~~~~
+In file included from /usr/include/stdio.h:894,
+                 from flexdef.h:42,
+                 from misc.c:33:
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:71:10: note: ‘__builtin___snprintf_chk’ output between 12 and 2059 bytes into a destination of size 2048
+   71 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   72 |                                    __glibc_objsize (__s), __fmt,
+      |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   73 |                                    __va_arg_pack ());
+      |                                    ~~~~~~~~~~~~~~~~~
+misc.c:367:57: warning: ‘%s’ directive output may be truncated writing up to 2047 bytes into a region of size between 2029 and 2039 [-Wformat-truncation=]
+  367 |                 snprintf (directive, sizeof(directive), line_fmt, linenum, filename);
+      |                                                         ^~~~~~~~           ~~~~~~~~
+In file included from /usr/include/stdio.h:894,
+                 from flexdef.h:42,
+                 from misc.c:33:
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:71:10: note: ‘__builtin___snprintf_chk’ output between 12 and 2069 bytes into a destination of size 2048
+   71 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   72 |                                    __glibc_objsize (__s), __fmt,
+      |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   73 |                                    __va_arg_pack ());
+      |                                    ~~~~~~~~~~~~~~~~~
+mv -f .deps/stage1flex-misc.Tpo .deps/stage1flex-misc.Po
+mv -f .deps/stage1flex-main.Tpo .deps/stage1flex-main.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"   -g -O2 -MT stage1flex-nfa.o -MD -MP -MF .deps/stage1flex-nfa.Tpo -c -o stage1flex-nfa.o `test -f 'nfa.c' || echo './'`nfa.c
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"   -g -O2 -MT stage1flex-options.o -MD -MP -MF .deps/stage1flex-options.Tpo -c -o stage1flex-options.o `test -f 'options.c' || echo './'`options.c
+mv -f .deps/stage1flex-scan.Tpo .deps/stage1flex-scan.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"   -g -O2 -MT stage1flex-parse.o -MD -MP -MF .deps/stage1flex-parse.Tpo -c -o stage1flex-parse.o `test -f 'parse.c' || echo './'`parse.c
+mv -f .deps/stage1flex-options.Tpo .deps/stage1flex-options.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"   -g -O2 -MT stage1flex-regex.o -MD -MP -MF .deps/stage1flex-regex.Tpo -c -o stage1flex-regex.o `test -f 'regex.c' || echo './'`regex.c
+mv -f .deps/stage1flex-nfa.Tpo .deps/stage1flex-nfa.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"   -g -O2 -MT stage1flex-scanflags.o -MD -MP -MF .deps/stage1flex-scanflags.Tpo -c -o stage1flex-scanflags.o `test -f 'scanflags.c' || echo './'`scanflags.c
+mv -f .deps/stage1flex-regex.Tpo .deps/stage1flex-regex.Po
+parse.y: In function ‘format_warn’:
+parse.y:1061:53: warning: ‘%s’ directive output may be truncated writing up to 2047 bytes into a region of size 2039 [-Wformat-truncation=]
+ 1021 |         lwarn( warn_msg );
+      |                ~~~~~~~~                              
+......
+ 1061 |                 snprintf( warning, sizeof(warning), "warning, %s", str );
+      |                                                     ^~~~~~~~~~~~~
+In file included from /usr/include/stdio.h:894,
+                 from flexdef.h:42,
+                 from parse.y:66:
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:71:10: note: ‘__builtin___snprintf_chk’ output between 10 and 2057 bytes into a destination of size 2048
+   71 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   72 |                                    __glibc_objsize (__s), __fmt,
+      |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   73 |                                    __va_arg_pack ());
+      |                                    ~~~~~~~~~~~~~~~~~
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"   -g -O2 -MT stage1flex-scanopt.o -MD -MP -MF .deps/stage1flex-scanopt.Tpo -c -o stage1flex-scanopt.o `test -f 'scanopt.c' || echo './'`scanopt.c
+mv -f .deps/stage1flex-scanflags.Tpo .deps/stage1flex-scanflags.Po
+parse.c: In function ‘yyparse’:
+parse.y:1061:53: warning: ‘%s’ directive output may be truncated writing up to 2047 bytes into a region of size 2039 [-Wformat-truncation=]
+ 1061 |                 snprintf( warning, sizeof(warning), "warning, %s", str );
+      |                                                     ^~~~~~~~~~~~~
+In file included from /usr/include/stdio.h:894,
+                 from flexdef.h:42,
+                 from parse.y:66:
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:71:10: note: ‘__builtin___snprintf_chk’ output between 10 and 2057 bytes into a destination of size 2048
+   71 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   72 |                                    __glibc_objsize (__s), __fmt,
+      |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   73 |                                    __va_arg_pack ());
+      |                                    ~~~~~~~~~~~~~~~~~
+parse.y:360:41: warning: ‘%s’ directive output may be truncated writing up to 2047 bytes into a region of size 2021 [-Wformat-truncation=]
+  360 |                                         "undeclared start condition %s",
+      |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  361 |                                         nmstr );
+      |                                         ~~~~~
+In file included from /usr/include/stdio.h:894,
+                 from flexdef.h:42,
+                 from parse.y:66:
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:71:10: note: ‘__builtin___snprintf_chk’ output between 28 and 2075 bytes into a destination of size 2048
+   71 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   72 |                                    __glibc_objsize (__s), __fmt,
+      |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   73 |                                    __va_arg_pack ());
+      |                                    ~~~~~~~~~~~~~~~~~
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"   -g -O2 -MT stage1flex-skel.o -MD -MP -MF .deps/stage1flex-skel.Tpo -c -o stage1flex-skel.o `test -f 'skel.c' || echo './'`skel.c
+mv -f .deps/stage1flex-skel.Tpo .deps/stage1flex-skel.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"   -g -O2 -MT stage1flex-sym.o -MD -MP -MF .deps/stage1flex-sym.Tpo -c -o stage1flex-sym.o `test -f 'sym.c' || echo './'`sym.c
+mv -f .deps/stage1flex-scanopt.Tpo .deps/stage1flex-scanopt.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"   -g -O2 -MT stage1flex-tables.o -MD -MP -MF .deps/stage1flex-tables.Tpo -c -o stage1flex-tables.o `test -f 'tables.c' || echo './'`tables.c
+mv -f .deps/stage1flex-gen.Tpo .deps/stage1flex-gen.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"   -g -O2 -MT stage1flex-tables_shared.o -MD -MP -MF .deps/stage1flex-tables_shared.Tpo -c -o stage1flex-tables_shared.o `test -f 'tables_shared.c' || echo './'`tables_shared.c
+mv -f .deps/stage1flex-parse.Tpo .deps/stage1flex-parse.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"   -g -O2 -MT stage1flex-tblcmp.o -MD -MP -MF .deps/stage1flex-tblcmp.Tpo -c -o stage1flex-tblcmp.o `test -f 'tblcmp.c' || echo './'`tblcmp.c
+mv -f .deps/stage1flex-sym.Tpo .deps/stage1flex-sym.Po
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"   -g -O2 -MT stage1flex-yylex.o -MD -MP -MF .deps/stage1flex-yylex.Tpo -c -o stage1flex-yylex.o `test -f 'yylex.c' || echo './'`yylex.c
+mv -f .deps/stage1flex-tables_shared.Tpo .deps/stage1flex-tables_shared.Po
+/bin/bash ../libtool  --tag=CC   --mode=link gcc  -g -O2 -version-info 2:0:0  -o libfl.la -rpath /home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/lib libmain.lo libyywrap.lo  -lm 
+mv -f .deps/stage1flex-tables.Tpo .deps/stage1flex-tables.Po
+mv -f .deps/stage1flex-yylex.Tpo .deps/stage1flex-yylex.Po
+libtool: link: gcc -shared  -fPIC -DPIC  .libs/libmain.o .libs/libyywrap.o   -lm  -g -O2   -Wl,-soname -Wl,libfl.so.2 -o .libs/libfl.so.2.0.0
+libtool: link: (cd ".libs" && rm -f "libfl.so.2" && ln -s "libfl.so.2.0.0" "libfl.so.2")
+libtool: link: (cd ".libs" && rm -f "libfl.so" && ln -s "libfl.so.2.0.0" "libfl.so")
+libtool: link: ar cru .libs/libfl.a  libmain.o libyywrap.o
+ar: `u' modifier ignored since `D' is the default (see `U')
+mv -f .deps/stage1flex-tblcmp.Tpo .deps/stage1flex-tblcmp.Po
+libtool: link: ranlib .libs/libfl.a
+/bin/bash ../libtool  --tag=CC   --mode=link gcc  -g -O2   -o stage1flex stage1flex-scan.o stage1flex-buf.o stage1flex-ccl.o stage1flex-dfa.o stage1flex-ecs.o stage1flex-filter.o stage1flex-gen.o stage1flex-main.o stage1flex-misc.o stage1flex-nfa.o stage1flex-options.o stage1flex-parse.o stage1flex-regex.o stage1flex-scanflags.o stage1flex-scanopt.o stage1flex-skel.o stage1flex-sym.o stage1flex-tables.o stage1flex-tables_shared.o stage1flex-tblcmp.o stage1flex-yylex.o    -lm 
+libtool: link: ( cd ".libs" && rm -f "libfl.la" && ln -s "../libfl.la" "libfl.la" )
+libtool: link: gcc -g -O2 -o stage1flex stage1flex-scan.o stage1flex-buf.o stage1flex-ccl.o stage1flex-dfa.o stage1flex-ecs.o stage1flex-filter.o stage1flex-gen.o stage1flex-main.o stage1flex-misc.o stage1flex-nfa.o stage1flex-options.o stage1flex-parse.o stage1flex-regex.o stage1flex-scanflags.o stage1flex-scanopt.o stage1flex-skel.o stage1flex-sym.o stage1flex-tables.o stage1flex-tables_shared.o stage1flex-tblcmp.o stage1flex-yylex.o  -lm
+./stage1flex   -o stage1scan.c ./scan.l
+gcc -DHAVE_CONFIG_H -I.  -DLOCALEDIR=\"/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/flex/share/locale\"    -g -O2 -MT flex-stage1scan.o -MD -MP -MF .deps/flex-stage1scan.Tpo -c -o flex-stage1scan.o `test -f 'stage1scan.c' || echo './'`stage1scan.c
+mv -f .deps/flex-stage1scan.Tpo .deps/flex-stage1scan.Po
+/bin/bash ../libtool  --tag=CC   --mode=link gcc   -g -O2   -o flex flex-buf.o flex-ccl.o flex-dfa.o flex-ecs.o flex-filter.o flex-gen.o flex-main.o flex-misc.o flex-nfa.o flex-options.o flex-parse.o flex-regex.o flex-scanflags.o flex-scanopt.o flex-skel.o flex-sym.o flex-tables.o flex-tables_shared.o flex-tblcmp.o flex-yylex.o flex-stage1scan.o   -lm 
+libtool: link: gcc -g -O2 -o flex flex-buf.o flex-ccl.o flex-dfa.o flex-ecs.o flex-filter.o flex-gen.o flex-main.o flex-misc.o flex-nfa.o flex-options.o flex-parse.o flex-regex.o flex-scanflags.o flex-scanopt.o flex-skel.o flex-sym.o flex-tables.o flex-tables_shared.o flex-tblcmp.o flex-yylex.o flex-stage1scan.o  -lm
+make[2]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/flex-2.6.4/src'
+make[1]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/flex-2.6.4/src'
+Making all in doc
+make[1]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/flex-2.6.4/doc'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/flex-2.6.4/doc'
+Making all in examples
+make[1]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/flex-2.6.4/examples'
+Making all in manual
+make[2]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/flex-2.6.4/examples/manual'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/flex-2.6.4/examples/manual'
+Making all in fastwc
+make[2]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/flex-2.6.4/examples/fastwc'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/flex-2.6.4/examples/fastwc'
+make[2]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/flex-2.6.4/examples'
+make[2]: Nothing to be done for 'all-am'.
+make[2]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/flex-2.6.4/examples'
+make[1]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/flex-2.6.4/examples'
+Making all in po
+make[1]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/flex-2.6.4/po'
+make[1]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/flex-2.6.4/po'
+Making all in tests
+make[1]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/flex-2.6.4/tests'
+Makefile:2917: warning: ignoring prerequisites on suffix rule definition
+Makefile:2920: warning: ignoring prerequisites on suffix rule definition
+Makefile:2947: warning: ignoring prerequisites on suffix rule definition
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/flex-2.6.4/tests'
+Making all in tools
+make[1]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/flex-2.6.4/tools'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/flex-2.6.4/tools'
+make[1]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/flex-2.6.4'
+make[1]: Nothing to be done for 'all-am'.
+make[1]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/flex-2.6.4'

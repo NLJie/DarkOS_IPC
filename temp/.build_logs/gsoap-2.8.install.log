@@ -1,0 +1,104 @@
+Making install in .
+make[1]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8'
+make[2]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8'
+make[2]: Nothing to be done for 'install-exec-am'.
+ /usr/bin/mkdir -p '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/lib/pkgconfig'
+ /usr/bin/install -c -m 644 gsoap.pc gsoap++.pc gsoapck.pc gsoapck++.pc gsoapssl.pc gsoapssl++.pc '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/lib/pkgconfig'
+make  install-data-hook
+make[3]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8'
+echo "+--------------------------------------------------------+"; \
+echo "| You now have successfully built and installed gsoap.   |"; \
+echo "|                                                        |"; \
+echo "| You can link your programs with -lgsoap++ for          |"; \
+echo "| C++ projects created with soapcpp2 and you can link    |"; \
+echo "| with -lgsoap for C projects generated with soapcpp2 -c |"; \
+echo "|                                                        |"; \
+echo "| There are also corresponding libraries for SSL and     |"; \
+echo "| zlib compression support (-lgsoapssl and lgsoapssl++)  |"; \
+echo "| which require linking -lssl -lcrypto -lz               |"; \
+echo "|                                                        |"; \
+echo "| Thanks for using gsoap.                                |"; \
+echo "|                                                        |"; \
+echo "|               http://sourceforge.net/projects/gsoap2   |"; \
+echo "+--------------------------------------------------------+"; 
++--------------------------------------------------------+
+| You now have successfully built and installed gsoap.   |
+|                                                        |
+| You can link your programs with -lgsoap++ for          |
+| C++ projects created with soapcpp2 and you can link    |
+| with -lgsoap for C projects generated with soapcpp2 -c |
+|                                                        |
+| There are also corresponding libraries for SSL and     |
+| zlib compression support (-lgsoapssl and lgsoapssl++)  |
+| which require linking -lssl -lcrypto -lz               |
+|                                                        |
+| Thanks for using gsoap.                                |
+|                                                        |
+|               http://sourceforge.net/projects/gsoap2   |
++--------------------------------------------------------+
+make[3]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8'
+make[2]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8'
+make[1]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8'
+Making install in gsoap
+make[1]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8/gsoap'
+make  install-recursive
+make[2]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8/gsoap'
+Making install in .
+make[3]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8/gsoap'
+make[4]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8/gsoap'
+ /usr/bin/mkdir -p '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/lib'
+ /usr/bin/install -c -m 644  libgsoap.a libgsoap++.a libgsoapck.a libgsoapck++.a libgsoapssl.a libgsoapssl++.a '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/lib'
+ ( cd '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/lib' && ranlib libgsoap.a )
+ ( cd '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/lib' && ranlib libgsoap++.a )
+ ( cd '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/lib' && ranlib libgsoapck.a )
+ ( cd '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/lib' && ranlib libgsoapck++.a )
+ ( cd '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/lib' && ranlib libgsoapssl.a )
+ ( cd '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/lib' && ranlib libgsoapssl++.a )
+ /usr/bin/mkdir -p '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/include'
+ /usr/bin/install -c -m 644 stdsoap2.h '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/include'
+ /usr/bin/mkdir -p '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/share/gsoap'
+ /usr/bin/mkdir -p '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/share/gsoap/../gsoap/import'
+ /usr/bin/install -c -m 644  ../gsoap/import/c14n.h ../gsoap/import/dom.h ../gsoap/import/ds2.h ../gsoap/import/ds.h ../gsoap/import/plnk.h ../gsoap/import/README.txt ../gsoap/import/ref.h ../gsoap/import/saml1.h ../gsoap/import/saml2.h ../gsoap/import/ser.h ../gsoap/import/soap12.h ../gsoap/import/stdstring.h ../gsoap/import/stldeque.h ../gsoap/import/stl.h ../gsoap/import/stllist.h ../gsoap/import/stlset.h ../gsoap/import/stlvector.h ../gsoap/import/vprop.h ../gsoap/import/wsa3.h ../gsoap/import/wsa4.h ../gsoap/import/wsa5.h ../gsoap/import/wsa.h ../gsoap/import/wsc2.h ../gsoap/import/wsc.h ../gsoap/import/wsdd10.h ../gsoap/import/wsdd5.h ../gsoap/import/wsdd.h ../gsoap/import/wsdx.h ../gsoap/import/WS-example.c ../gsoap/import/WS-example.h ../gsoap/import/WS-Header.h ../gsoap/import/wsp_appliesto.h ../gsoap/import/wsp.h ../gsoap/import/wsrm4.h ../gsoap/import/wsrm5.h ../gsoap/import/wsrm.h ../gsoap/import/wsrp.h ../gsoap/import/wsrx5.h ../gsoap/import/wsrx.h ../gsoap/import/wsse11.h '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/share/gsoap/../gsoap/import'
+ /usr/bin/mkdir -p '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/share/gsoap/../gsoap/plugin'
+ /usr/bin/install -c -m 644  ../gsoap/plugin/cacerts.c ../gsoap/plugin/cacerts.h ../gsoap/plugin/calcrest.h ../gsoap/plugin/curlapi.c ../gsoap/plugin/curlapi.h ../gsoap/plugin/httpda.c ../gsoap/plugin/httpda.h ../gsoap/plugin/httpdatest.c ../gsoap/plugin/httpdatest.h ../gsoap/plugin/httpform.c ../gsoap/plugin/httpform.h ../gsoap/plugin/httpget.c ../gsoap/plugin/httpget.h ../gsoap/plugin/httpgettest.c ../gsoap/plugin/httpgettest.h ../gsoap/plugin/httpmd5.c ../gsoap/plugin/httpmd5.h ../gsoap/plugin/httpmd5test.c ../gsoap/plugin/httpmd5test.h ../gsoap/plugin/httppipe.c ../gsoap/plugin/httppipe.h ../gsoap/plugin/httppost.c ../gsoap/plugin/httppost.h ../gsoap/plugin/httpposttest.c ../gsoap/plugin/httpposttest.h ../gsoap/plugin/logging.c ../gsoap/plugin/logging.h ../gsoap/plugin/md5evp.c ../gsoap/plugin/md5evp.h ../gsoap/plugin/mecevp.c ../gsoap/plugin/mecevp.h ../gsoap/plugin/mq.c ../gsoap/plugin/mq.h ../gsoap/plugin/plugin.c ../gsoap/plugin/plugin.h ../gsoap/plugin/README.txt ../gsoap/plugin/sessions.c ../gsoap/plugin/sessions.h ../gsoap/plugin/smdevp.c ../gsoap/plugin/smdevp.h '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/share/gsoap/../gsoap/plugin'
+ /usr/bin/mkdir -p '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/share/gsoap/../gsoap/import'
+ /usr/bin/install -c -m 644  ../gsoap/import/wsse2.h ../gsoap/import/wsse.h ../gsoap/import/wst2.h ../gsoap/import/wst.h ../gsoap/import/wstx2.h ../gsoap/import/wstx.h ../gsoap/import/wsu.h ../gsoap/import/xenc2.h ../gsoap/import/xenc.h ../gsoap/import/xlink.h ../gsoap/import/xmime4.h ../gsoap/import/xmime5.h ../gsoap/import/xmime.h ../gsoap/import/xml.h ../gsoap/import/xmlmime5.h ../gsoap/import/xmlmime.h ../gsoap/import/xop.h ../gsoap/import/xsd.h '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/share/gsoap/../gsoap/import'
+ /usr/bin/mkdir -p '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/share/gsoap/../gsoap/extras'
+ /usr/bin/install -c -m 644  ../gsoap/extras/ckdb.c ../gsoap/extras/ckdb.h ../gsoap/extras/ckdbtest.c ../gsoap/extras/ckdbtest.h ../gsoap/extras/fault.cpp ../gsoap/extras/logging.cpp ../gsoap/extras/README.txt ../gsoap/extras/soapdefs.h '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/share/gsoap/../gsoap/extras'
+ /usr/bin/mkdir -p '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/share/gsoap/../gsoap/plugin'
+ /usr/bin/install -c -m 644  ../gsoap/plugin/threads.c ../gsoap/plugin/threads.h ../gsoap/plugin/wsaapi.c ../gsoap/plugin/wsaapi.h ../gsoap/plugin/wsddapi.c ../gsoap/plugin/wsddapi.h ../gsoap/plugin/wsrmapi.c ../gsoap/plugin/wsrmapi.h ../gsoap/plugin/wsse2api.c ../gsoap/plugin/wsse2api.h ../gsoap/plugin/wsseapi.c ../gsoap/plugin/wsseapi.cpp ../gsoap/plugin/wsseapi.h ../gsoap/plugin/wsseapi-lite.c ../gsoap/plugin/wsseapi-lite.h ../gsoap/plugin/wstapi.c ../gsoap/plugin/wstapi.h '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/share/gsoap/../gsoap/plugin'
+ /usr/bin/mkdir -p '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/share/gsoap/../gsoap/custom'
+ /usr/bin/install -c -m 644  ../gsoap/custom/chrono_duration.cpp ../gsoap/custom/chrono_duration.h ../gsoap/custom/chrono_time_point.cpp ../gsoap/custom/chrono_time_point.h ../gsoap/custom/duration.c ../gsoap/custom/duration.h ../gsoap/custom/float128.c ../gsoap/custom/float128.h ../gsoap/custom/int128.c ../gsoap/custom/int128.h ../gsoap/custom/long_double.c ../gsoap/custom/long_double.h ../gsoap/custom/long_time.c ../gsoap/custom/long_time.h ../gsoap/custom/qbytearray_base64.cpp ../gsoap/custom/qbytearray_base64.h ../gsoap/custom/qbytearray_hex.cpp ../gsoap/custom/qbytearray_hex.h ../gsoap/custom/qdate.cpp ../gsoap/custom/qdate.h ../gsoap/custom/qdatetime.cpp ../gsoap/custom/qdatetime.h ../gsoap/custom/qstring.cpp ../gsoap/custom/qstring.h ../gsoap/custom/qtime.cpp ../gsoap/custom/qtime.h ../gsoap/custom/README.txt ../gsoap/custom/struct_timeval.c ../gsoap/custom/struct_timeval.h ../gsoap/custom/struct_tm.c ../gsoap/custom/struct_tm_date.c ../gsoap/custom/struct_tm_date.h ../gsoap/custom/struct_tm.h '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/share/gsoap/../gsoap/custom'
+ /usr/bin/mkdir -p '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/share/gsoap/../gsoap/WS'
+ /usr/bin/install -c -m 644  ../gsoap/WS/discovery.xsd ../gsoap/WS/ds.xsd ../gsoap/WS/enumeration.xsd ../gsoap/WS/LEGAL.txt ../gsoap/WS/oasis-sstc-saml-schema-assertion-1.1.xsd ../gsoap/WS/README.txt ../gsoap/WS/reference-1.1.xsd ../gsoap/WS/saml-schema-assertion-2.0.xsd ../gsoap/WS/typemap.dat ../gsoap/WS/WS-Addressing03.xsd ../gsoap/WS/WS-Addressing04.xsd ../gsoap/WS/WS-Addressing05.xsd ../gsoap/WS/WS-Addressing.xsd ../gsoap/WS/ws-bpel_abstract_common_base.xsd ../gsoap/WS/ws-bpel_executable.xsd ../gsoap/WS/ws-bpel_plnktype.xsd ../gsoap/WS/ws-bpel_serviceref.xsd ../gsoap/WS/ws-bpel_varprop.xsd ../gsoap/WS/WS-Discovery.wsdl ../gsoap/WS/WS-Enumeration.wsdl ../gsoap/WS/WS-Policy12.xsd ../gsoap/WS/WS-Policy.xsd ../gsoap/WS/ws-reliability-1.1.xsd ../gsoap/WS/WS-ReliableMessaging.wsdl ../gsoap/WS/WS-ReliableMessaging.xsd ../gsoap/WS/WS-Routing.xsd ../gsoap/WS/WS-SecureConversation.xsd ../gsoap/WS/WS-SecurityPolicy.xsd ../gsoap/WS/wsse.xsd ../gsoap/WS/WS-Trust.wsdl ../gsoap/WS/WS-Trust.xsd ../gsoap/WS/WS-typemap.dat ../gsoap/WS/wsu.xsd ../gsoap/WS/xenc.xsd '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/share/gsoap/../gsoap/WS'
+make  install-data-hook
+make[5]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8/gsoap'
+ln -s -f ../gsoap/src/soapcpp2 ../gsoap/soapcpp2 || echo "ok, link already exists".
+ln -s -f ../gsoap/wsdl/wsdl2h ../gsoap/wsdl2h || echo "ok, link already exists".
+make[5]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8/gsoap'
+make[4]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8/gsoap'
+make[3]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8/gsoap'
+Making install in src
+make[3]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8/gsoap/src'
+make  install-am
+make[4]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8/gsoap/src'
+make[5]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8/gsoap/src'
+ /usr/bin/mkdir -p '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/bin'
+  /usr/bin/install -c soapcpp2 '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/bin'
+make[5]: Nothing to be done for 'install-data-am'.
+make[5]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8/gsoap/src'
+make[4]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8/gsoap/src'
+make[3]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8/gsoap/src'
+Making install in wsdl
+make[3]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8/gsoap/wsdl'
+make  install-am
+make[4]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8/gsoap/wsdl'
+make[5]: Entering directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8/gsoap/wsdl'
+ /usr/bin/mkdir -p '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/bin'
+  /usr/bin/install -c wsdl2h '/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/gsoap/bin'
+make[5]: Nothing to be done for 'install-data-am'.
+make[5]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8/gsoap/wsdl'
+make[4]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8/gsoap/wsdl'
+make[3]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8/gsoap/wsdl'
+make[2]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8/gsoap'
+make[1]: Leaving directory '/home/nlj/workspace1/P000_rk3576_zs/project_root/temp/gsoap-2.8/gsoap'
