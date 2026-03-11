@@ -5,6 +5,10 @@
 *   Author:     NLJie
 *   Date:       2026-03-10
 **********************************************************************************/
+// 确保开启 POSIX 特性
+#define _POSIX_C_SOURCE 200809L 
+// 如果是较新的 glibc 且遇到 2038 问题，可能需要这个：
+// #define _TIME_BITS 64 
 
 #include "hal_camera.h"
 #include "log_system.h"
@@ -22,7 +26,7 @@
 
 #define V4L2_BUF_COUNT      4
 #define READ_TIMEOUT_SEC    2
-#define VIDEO_DEV_MAX_IDX   9   // 扫描 /dev/video0 ~ /dev/video9
+#define VIDEO_DEV_MAX_IDX   20   // 扫描 /dev/video0 ~ /dev/video20
 
 typedef struct {
     void*  start;

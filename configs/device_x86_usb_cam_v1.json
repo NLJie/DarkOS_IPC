@@ -1,0 +1,30 @@
+{
+  "device_name": "x86_usb_cam_v1",
+
+  "log": {
+    "dir":          "./log",
+    "level":        "debug",
+    "max_size_mb":  1,
+    "max_backups":  3,
+    "console":      true,
+    "timestamp_ms": false
+  },
+
+  "camera": {
+    "width":    1920,
+    "height":   1080,
+    "fps":      25.0,
+    "dev_path": ""
+  },
+
+  "paths": {
+    "data_dir":  "/var/lib/pg_camera",
+    "temp_dir":  "/tmp/pg_camera",
+    "media_dir": "/opt/pg_camera/media"
+  },
+
+  "ai": {
+    "model_path": "/opt/pg_camera/models/yolov8n.onnx",
+    "threshold":  0.5
+  }
+}

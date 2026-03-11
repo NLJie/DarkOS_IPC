@@ -1,0 +1,11 @@
+{
+    "files.exclude": {
+        // 隐藏所有文件
+        "**/*.log": true,
+        "CLAUDE.md": true,
+
+        // 隐藏根目录下的文件夹
+        "build": true,
+        ".claude": true,
+    }
+}

@@ -12,24 +12,46 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# 平台选择（三选一）
-option(PG_HAL_USE_X86     "Use X86 V4L2 HAL implementation"      ON)
-option(PG_HAL_USE_RK3588S "Use RK3588S HAL port implementation"  OFF)
+# 平台
+set(PG_PLATFORM "x86" CACHE STRING "Target: x86 | rk3576 | rk3588s | rv1126b")
 
-if(PG_HAL_USE_X86 AND PG_HAL_USE_RK3588S)
-	message(FATAL_ERROR "PG_HAL_USE_X86 and PG_HAL_USE_RK3588S cannot both be ON.")
-endif()
+# 产品（功能集合）
+set(PG_PRODUCT "cam_basic" CACHE STRING "Product: cam_basic | cam_ai | cam_streaming")
 
-if(PG_HAL_USE_X86)
-	add_subdirectory(platform/x86)
-endif()
+# 加载平台
+add_subdirectory(platform/${PG_PLATFORM})
 
-if(PG_HAL_USE_RK3588S)
-	add_subdirectory(platform/rk3588s)
-endif()
-
-add_subdirectory(components/utils)
-add_subdirectory(components/hal)
+# 第三方库
 add_subdirectory(third_party/cJSON)
-add_subdirectory(applications/default_app)
+
+# 加载框架核心
+add_subdirectory(core/hal)
+add_subdirectory(core/utils)
+add_subdirectory(core/event_bus)
+
+# 加载产品声明 (设置 PG_ENABLE_xxx 变量)
+include(products/${PG_PRODUCT}/product.cmake)
+
+# 按产品声明条件加载 components
+if(PG_ENABLE_MEDIA_CORE)
+    add_subdirectory(components/media_core)
+endif()
+if(PG_ENABLE_AI_ENGINE)
+    add_subdirectory(components/ai_engine)
+endif()
+if(PG_ENABLE_ALARM_SYSTEM)
+    add_subdirectory(components/alarm_system)
+endif()
+if(PG_ENABLE_NETWORK_STACK)
+    add_subdirectory(components/network_stack)
+endif()
+if(PG_ENABLE_OTA)
+    add_subdirectory(components/ota)
+endif()
+if(PG_ENABLE_STORAGE)
+    add_subdirectory(components/storage_service)
+endif()
+
+# 编译产品可执行文件
+add_subdirectory(products/${PG_PRODUCT})
 

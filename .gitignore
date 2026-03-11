@@ -5,6 +5,7 @@ build/**
 
 
 # 不需要共享的 IDE 配置文件
-
+.claude/**
 
 # 私有配置文件
+CLAUDE.md

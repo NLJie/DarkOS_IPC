@@ -1,2 +1,1 @@
-# x86 platform exported headers.
-
+cmake_minimum_required(VERSION 3.16)
