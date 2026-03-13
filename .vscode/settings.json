@@ -10,7 +10,7 @@
         "products/cam_ai": true,
 
         // 隐藏根目录下的文件夹
-        "build": true,
+        "build": false,
         ".claude": true,
         ".gitignore": true,
     }
