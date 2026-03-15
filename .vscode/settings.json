@@ -12,6 +12,6 @@
         // 隐藏根目录下的文件夹
         "build": false,
         ".claude": true,
-        ".gitignore": true,
+        ".gitignore": false,
     }
 }
