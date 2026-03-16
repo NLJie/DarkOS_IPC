@@ -26,7 +26,7 @@ if(PG_HAL_USE_RK3588S)
 elseif(PG_HAL_USE_X86)
 	target_include_directories(hal_camera
 		PRIVATE
-			${CMAKE_SOURCE_DIR}/components/utils/log/include
+			${CMAKE_SOURCE_DIR}/components/core/utils/log/include
 	)
 
 	if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
@@ -35,9 +35,11 @@ elseif(PG_HAL_USE_X86)
 		target_link_libraries(hal_camera
 			PRIVATE mf mfplat mfreadwrite mfuuid ole32)
 	else()
-		# Linux / Ubuntu
+		# Linux: 基于 OpenCV 的统一后端 (USB / RTSP / Virtual)
 		set(HAL_CAMERA_IMPL_SRC
-			${CMAKE_SOURCE_DIR}/platform/x86/port/src/hal_camera_linux.c)
+			${CMAKE_SOURCE_DIR}/platform/x86/port/src/hal_camera_opencv.cpp)
+		target_link_libraries(hal_camera
+			PRIVATE pg_opencv)
 	endif()
 
 	target_compile_definitions(hal_camera PRIVATE PG_HAL_IMPL_X86=1)

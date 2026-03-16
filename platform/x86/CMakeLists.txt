@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
 
+# 告知 hal_camera 使用 x86 后端
+set(PG_HAL_USE_X86 ON CACHE BOOL "" FORCE)
+
 set(X86_BSP_DIR "${CMAKE_CURRENT_SOURCE_DIR}/bsp")
 
 # 将 bsp 目录加入 CMake 搜索路径，后续 find_package / find_library 均在此查找

@@ -10,7 +10,7 @@ tools/src/**
 # BSP 动态库 (由 compile.sh install-bsp 生成，不入库)
 # platform/*/bsp/lib/*.so
 # platform/*/bsp/lib/*.so.*
-platform/*/bsp/**
+# platform/*/bsp/**
 
 # 不需要共享的 IDE 配置文件
 .claude/**

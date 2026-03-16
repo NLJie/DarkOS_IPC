@@ -56,23 +56,6 @@ int main(int argc, char *argv[])
     LOG_INFO("FFmpeg avcodec:  %s", av_version_info());
     LOG_INFO("FFmpeg avformat: %s", AV_STRINGIFY(LIBAVFORMAT_VERSION));
 
-    /* ---- 用 OpenCV 探测本机摄像头 ---- */
-    LOG_INFO("--- OpenCV 摄像头探测 ---");
-    int found = 0;
-    for (int i = 0; i < 8; i++) {
-        cv::VideoCapture cap(i, cv::CAP_V4L2);
-        if (cap.isOpened()) {
-            int w = static_cast<int>(cap.get(cv::CAP_PROP_FRAME_WIDTH));
-            int h = static_cast<int>(cap.get(cv::CAP_PROP_FRAME_HEIGHT));
-            LOG_INFO("  /dev/video%d  %dx%d", i, w, h);
-            cap.release();
-            found++;
-        }
-    }
-    if (found == 0) {
-        LOG_WARN("  未检测到摄像头");
-    }
-    LOG_INFO("--- 探测完毕, 共 %d 路 ---", found);
     if (config_path) {
         LOG_INFO("Config: %s", config_path);
     }

@@ -20,12 +20,15 @@ set -e
 # 组件 (不指定则编译全部):
 #   mpp x264 x265 libdrm ffmpeg opencv librga rknn
 #   m4 autoconf libtool bison flex openssl gsoap all
+#   gen-onvif    用 bsp/bin/wsdl2h+soapcpp2 生成 ONVIF 桩代码
+#               (需先编译 gsoap: ./compile.sh gsoap)
 #
 # 示例:
 #   ./compile.sh                          # x86_64 编译全部，直接输出到 platform/x86/bsp
 #   ./compile.sh --arch=aarch64           # 交叉编译全部，输出到 platform/rk3576/bsp
 #   ./compile.sh --arch=aarch64 --platform=rk3588s mpp x264
 #   ./compile.sh --clean ffmpeg           # 清理后重新编译 ffmpeg
+#   ./compile.sh gen-onvif               # 生成 ONVIF 桩代码
 #=============================================================================
 
 # ==================== 颜色输出 ====================
@@ -426,6 +429,7 @@ build_opencv() {
         -DBUILD_TESTS=OFF
         -DBUILD_PERF_TESTS=OFF
         -DBUILD_EXAMPLES=OFF
+        -DBUILD_opencv_apps=OFF
         -DBUILD_opencv_python3=OFF
         -DBUILD_SHARED_LIBS=ON
         -DBUILD_STATIC_LIBS=OFF
@@ -521,7 +525,7 @@ build_openssl() {
         --openssldir="${INSTALL_PREFIX}/ssl"
         --libdir=lib
         shared
-        no-static
+        no-apps
     )
 
     if [[ "$ARCH" == "aarch64" ]]; then
@@ -534,7 +538,7 @@ build_openssl() {
 
     "$src"/Configure "${config_args[@]}"
     make -j"$JOBS"
-    make install_sw
+    make install
     cd "$SCRIPT_DIR"
     log_ok "OpenSSL 编译完成"
 }
@@ -563,6 +567,7 @@ build_gsoap() {
         cd "$build_dir"
         "$src"/configure \
             --prefix="${INSTALL_PREFIX}" \
+            --with-openssl="${INSTALL_PREFIX}" \
             --host=aarch64-linux-gnu \
             CC="${CROSS_PREFIX}gcc" \
             CXX="${CROSS_PREFIX}g++" \
@@ -574,13 +579,145 @@ build_gsoap() {
         make install
     else
         cd "$build_dir"
-        "$src"/configure --prefix="${INSTALL_PREFIX}"
+        "$src"/configure \
+            --prefix="${INSTALL_PREFIX}" \
+            --with-openssl="${INSTALL_PREFIX}"
         make -j"$JOBS"
         make install
     fi
 
     cd "$SCRIPT_DIR"
     log_ok "gSOAP 编译完成"
+}
+
+# ==================== ONVIF 代码生成函数 ====================
+
+# gen_onvif: 用 bsp/bin/wsdl2h + soapcpp2 从 ONVIF WSDL 生成桩代码
+#
+# 生成流程:
+#   1. 确定工具路径: platform/x86/bsp/bin/wsdl2h + soapcpp2
+#   2. 下载 ONVIF WSDL (device + media + ptz) 到临时目录 (若网络不可用则跳过)
+#   3. wsdl2h 将 WSDL 转换为 onvif.h (C++ 映射)
+#   4. soapcpp2 从 onvif.h 生成 soapC.cpp / soapClient.cpp / soapH.h / soapStub.h
+#   5. 生成文件输出到 components/network_stack/onvif/generated/
+gen_onvif() {
+    # 工具路径固定用宿主机 x86 bsp (生成代码只在宿主机运行)
+    local x86_bsp="${SCRIPT_DIR}/../platform/x86/bsp"
+    local WSDL2H="${x86_bsp}/bin/wsdl2h"
+    local SOAPCPP2="${x86_bsp}/bin/soapcpp2"
+    local gsoap_import="${x86_bsp}/share/gsoap/import"
+    local gsoap_ws="${x86_bsp}/share/gsoap/WS"
+    local out_dir="${SCRIPT_DIR}/../components/network_stack/onvif/generated"
+
+    log_info "生成 ONVIF 桩代码 ..."
+
+    # 检查工具
+    if [[ ! -x "${WSDL2H}" ]]; then
+        log_error "wsdl2h 不存在或不可执行: ${WSDL2H}"
+        log_error "请确认 gsoap 已编译并安装到 platform/x86/bsp"
+        return 1
+    fi
+    if [[ ! -x "${SOAPCPP2}" ]]; then
+        log_error "soapcpp2 不存在或不可执行: ${SOAPCPP2}"
+        return 1
+    fi
+    if [[ ! -d "${gsoap_import}" ]]; then
+        log_error "gsoap import 目录不存在: ${gsoap_import}"
+        log_error "请先运行: ./compile.sh gsoap"
+        return 1
+    fi
+
+    mkdir -p "${out_dir}"
+
+    # ---------- 阶段1: 准备 ONVIF WSDL ----------
+    # ONVIF 官方 WSDL 可从 https://www.onvif.org/onvif/ver10/device/wsdl/devicemgmt.wsdl 等下载
+    # 此处使用离线 WSDL (若 tools/wsdl/ 目录存在) 或联网下载
+    local wsdl_dir="${SCRIPT_DIR}/wsdl"
+    local use_online=0
+
+    if [[ ! -d "${wsdl_dir}" ]] || [[ -z "$(ls "${wsdl_dir}"/*.wsdl 2>/dev/null)" ]]; then
+        log_warn "tools/wsdl/ 目录无 .wsdl 文件，尝试联网下载 ONVIF WSDL ..."
+        wsdl_dir=$(mktemp -d)
+        use_online=1
+
+        local base_url="https://www.onvif.org/onvif"
+        declare -A WSDL_URLS=(
+            ["devicemgmt.wsdl"]="${base_url}/ver10/device/wsdl/devicemgmt.wsdl"
+            ["media.wsdl"]="${base_url}/ver10/media/wsdl/media.wsdl"
+            ["ptz.wsdl"]="${base_url}/ver20/ptz/wsdl/ptz.wsdl"
+        )
+        # ONVIF WSDL 引用的 schema，需放在同目录供 wsdl2h 解析
+        declare -A XSD_URLS=(
+            ["onvif.xsd"]="https://www.onvif.org/ver10/schema/onvif.xsd"
+            ["common.xsd"]="https://www.onvif.org/ver10/schema/common.xsd"
+        )
+        for name in "${!WSDL_URLS[@]}"; do
+            log_info "  下载 ${name} ..."
+            if ! curl -sSf --connect-timeout 10 -o "${wsdl_dir}/${name}" "${WSDL_URLS[$name]}"; then
+                log_error "下载失败: ${WSDL_URLS[$name]}"
+                log_error "请手动将 ONVIF WSDL 文件放到 tools/wsdl/ 目录后重新运行"
+                [[ $use_online -eq 1 ]] && rm -rf "${wsdl_dir}"
+                return 1
+            fi
+        done
+        for name in "${!XSD_URLS[@]}"; do
+            log_info "  下载 ${name} ..."
+            curl -sSf --connect-timeout 10 -o "${wsdl_dir}/${name}" "${XSD_URLS[$name]}" || \
+                log_warn "下载 ${name} 失败，继续（wsdl2h 会尝试忽略）"
+        done
+        log_ok "WSDL/XSD 下载完成"
+    else
+        log_info "使用本地 WSDL: ${wsdl_dir}"
+    fi
+
+    # ---------- 阶段2: wsdl2h → onvif.h ----------
+    local onvif_h="${out_dir}/onvif.h"
+    local wsdl_files=("${wsdl_dir}"/*.wsdl)
+
+    log_info "运行 wsdl2h ..."
+    log_info "  输入: ${wsdl_files[*]}"
+    log_info "  输出: ${onvif_h}"
+
+    "${WSDL2H}" \
+        -o "${onvif_h}" \
+        -t "${gsoap_ws}/typemap.dat" \
+        -I "${gsoap_import}" \
+        -I "${gsoap_ws}" \
+        -I "${wsdl_dir}" \
+        -c++11 \
+        -N onvif \
+        "${wsdl_files[@]}"
+
+    if [[ ! -f "${onvif_h}" ]]; then
+        log_error "wsdl2h 未生成 onvif.h"
+        [[ $use_online -eq 1 ]] && rm -rf "${wsdl_dir}"
+        return 1
+    fi
+    log_ok "wsdl2h 完成: ${onvif_h}"
+
+    # ---------- 阶段3: soapcpp2 → C++ 桩代码 ----------
+    log_info "运行 soapcpp2 ..."
+    log_info "  输出目录: ${out_dir}"
+
+    # -C: 只生成客户端代码 (不生成服务端)
+    # -j: 生成 C++ proxy 类 (XxxProxy.h/.cpp)
+    # -x: 不生成 XML 示例文件
+    # -I: import 头文件搜索路径
+    (cd "${out_dir}" && \
+        "${SOAPCPP2}" \
+            -C -j -x \
+            -I "${gsoap_import}" \
+            "${onvif_h}"
+    )
+
+    log_ok "soapcpp2 完成，生成文件:"
+    find "${out_dir}" -maxdepth 1 -type f | sort | sed "s|${out_dir}/|  |"
+
+    [[ $use_online -eq 1 ]] && rm -rf "${wsdl_dir}"
+
+    log_ok "ONVIF 桩代码已生成到: ${out_dir}"
+    log_info "下一步: 在 components/network_stack/onvif/CMakeLists.txt 中"
+    log_info "  将 generated/ 下的 soapC.cpp / soapClient.cpp / *Proxy.cpp"
 }
 
 # ==================== 主流程 ====================
@@ -632,10 +769,13 @@ should_build libdrm  && build_libdrm
 should_build x264    && build_x264
 should_build x265    && build_x265
 
-should_build openssl && build_openssl
-should_build gsoap   && build_gsoap
-should_build ffmpeg  && build_ffmpeg
-should_build opencv  && build_opencv
+should_build openssl  && build_openssl
+should_build gsoap    && build_gsoap
+should_build ffmpeg   && build_ffmpeg
+should_build opencv   && build_opencv
+
+# ONVIF 桩代码生成 (仅宿主机运行，不参与交叉编译)
+[[ " ${COMPONENTS[*]} " =~ " gen-onvif " ]] && gen_onvif
 
 # should_build m4      && build_m4
 # should_build autoconf && build_autoconf
