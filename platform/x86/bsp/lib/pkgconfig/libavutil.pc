@@ -1,7 +1,7 @@
-prefix=/home/nlj/workspace1/P000_rk3576_zs/project_root/tools/output/x86_64
+prefix=/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp
 exec_prefix=${prefix}
-libdir=/home/nlj/workspace1/P000_rk3576_zs/project_root/tools/output/x86_64/lib
-includedir=/home/nlj/workspace1/P000_rk3576_zs/project_root/tools/output/x86_64/include
+libdir=/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/lib
+includedir=/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/include
 
 Name: libavutil
 Description: FFmpeg utility library

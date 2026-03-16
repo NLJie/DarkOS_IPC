@@ -35,10 +35,8 @@ target_link_libraries(pg_ffmpeg INTERFACE
 # =============================================================================
 # OpenCV
 # =============================================================================
-find_package(OpenCV REQUIRED
-    PATHS "${X86_BSP_DIR}"
-    NO_DEFAULT_PATH
-)
+set(OpenCV_DIR "${X86_BSP_DIR}/lib/cmake/opencv4")
+find_package(OpenCV REQUIRED)
 
 # pg_opencv: 聚合 target
 add_library(pg_opencv INTERFACE)

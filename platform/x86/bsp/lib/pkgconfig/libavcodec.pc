@@ -1,7 +1,7 @@
-prefix=/home/nlj/workspace1/P000_rk3576_zs/project_root/tools/output/x86_64
+prefix=/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp
 exec_prefix=${prefix}
-libdir=/home/nlj/workspace1/P000_rk3576_zs/project_root/tools/output/x86_64/lib
-includedir=/home/nlj/workspace1/P000_rk3576_zs/project_root/tools/output/x86_64/include
+libdir=/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/lib
+includedir=/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/include
 
 Name: libavcodec
 Description: FFmpeg codec library
@@ -10,5 +10,5 @@ Requires:
 Requires.private: libswresample >= 6.3.100, libavutil >= 60.26.100
 Conflicts:
 Libs: -L${libdir}  -lavcodec 
-Libs.private: -pthread -lm -latomic -L/home/nlj/workspace1/P000_rk3576_zs/project_root/tools/output/x86_64/lib -lx264 -L/home/nlj/workspace1/P000_rk3576_zs/project_root/tools/output/x86_64/lib -lx265 -lz
+Libs.private: -pthread -lm -latomic -L/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/lib -lx264 -L/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp/lib -lx265 -lz
 Cflags: -I${includedir}

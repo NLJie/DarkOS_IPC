@@ -11,15 +11,15 @@ make -j$(nproc)
 
 # Host 主机上需要安装的工具
 
-sudo apt install -y \
-        cmake make ninja-build meson pkg-config \
-        gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu \
-        m4 autoconf libtool autotools-dev \
-        bison flex \
-        nasm \
-        libsdl2-dev \
-        perl
+# sudo apt install -y \
+#         cmake make ninja-build meson pkg-config \
+#         gcc-aarch64-linux-gnu g++-aarch64-linux-gnu binutils-aarch64-linux-gnu \
+#         m4 autoconf libtool autotools-dev \
+#         bison flex \
+#         nasm \
+#         libsdl2-dev \
+#         perl
 
 
-./compile.sh --clean ffmpeg
-./compile.sh --clean opencv
+# ./compile.sh --clean ffmpeg
+# ./compile.sh --clean opencv

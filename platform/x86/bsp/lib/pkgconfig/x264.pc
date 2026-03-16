@@ -1,4 +1,4 @@
-prefix=/home/nlj/workspace1/P000_rk3576_zs/project_root/tools/output/x86_64
+prefix=/home/nlj/workspace1/P000_rk3576_zs/project_root/platform/x86/bsp
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include

@@ -16,4 +16,6 @@ target_link_libraries(cam_basic
         pg_device_config   # 含 pg_config / hal_camera / log_system
         common
         pg_event_bus
+        pg_opencv
+        pg_ffmpeg
 )
