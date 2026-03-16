@@ -20,15 +20,12 @@ set -e
 # 组件 (不指定则编译全部):
 #   mpp x264 x265 libdrm ffmpeg opencv librga rknn
 #   m4 autoconf libtool bison flex openssl gsoap all
-#   install-bsp         将编译产物安装到 platform/*/bsp 目录
 #
 # 示例:
-#   ./compile.sh                          # x86_64 编译全部
-#   ./compile.sh --arch=aarch64           # 交叉编译全部 (使用默认 aarch64-linux-gnu-)
-#   ./compile.sh --arch=aarch64 mpp x264  # 交叉编译 mpp 和 x264
+#   ./compile.sh                          # x86_64 编译全部，直接输出到 platform/x86/bsp
+#   ./compile.sh --arch=aarch64           # 交叉编译全部，输出到 platform/rk3576/bsp
+#   ./compile.sh --arch=aarch64 --platform=rk3588s mpp x264
 #   ./compile.sh --clean ffmpeg           # 清理后重新编译 ffmpeg
-#   ./compile.sh install-bsp              # 安装已编译产物到 x86 bsp
-#   ./compile.sh --arch=aarch64 --platform=rk3576 install-bsp
 #=============================================================================
 
 # ==================== 颜色输出 ====================
@@ -90,8 +87,8 @@ if [[ -z "$PLATFORM" ]]; then
     esac
 fi
 
-# 安装路径: output/<arch>/
-INSTALL_PREFIX="${SCRIPT_DIR}/output/${ARCH}"
+# 安装路径直接指向对应平台的 bsp 目录，编译产物即 bsp
+INSTALL_PREFIX="$(realpath "${SCRIPT_DIR}/../platform/${PLATFORM}/bsp")"
 BUILD_BASE="${SCRIPT_DIR}/build/${ARCH}"
 
 mkdir -p "$INSTALL_PREFIX" "$BUILD_BASE"
@@ -522,7 +519,9 @@ build_openssl() {
     local config_args=(
         --prefix="${INSTALL_PREFIX}"
         --openssldir="${INSTALL_PREFIX}/ssl"
+        --libdir=lib
         shared
+        no-static
     )
 
     if [[ "$ARCH" == "aarch64" ]]; then
@@ -584,36 +583,6 @@ build_gsoap() {
     log_ok "gSOAP 编译完成"
 }
 
-# ==================== BSP 安装函数 ====================
-
-install_bsp() {
-    local BSP_DIR="${SCRIPT_DIR}/../platform/${PLATFORM}/bsp"
-    BSP_DIR="$(realpath "$BSP_DIR")"
-
-    if [[ ! -d "$(dirname "$BSP_DIR")" ]]; then
-        log_error "平台目录不存在: $(dirname "$BSP_DIR")，请检查 --platform 参数"
-        return 1
-    fi
-
-    log_info "安装 BSP 到: ${BSP_DIR} (来源: ${INSTALL_PREFIX})"
-    mkdir -p "${BSP_DIR}/include" "${BSP_DIR}/lib"
-
-    # 头文件：直接平铺复制
-    cp -a "${INSTALL_PREFIX}/include/." "${BSP_DIR}/include/"
-
-    # 动态库：只复制 .so 和版本符号链接，跳过静态库
-    find "${INSTALL_PREFIX}/lib" -maxdepth 1 \( -name "*.so" -o -name "*.so.*" \) \
-        -exec cp -a {} "${BSP_DIR}/lib/" \;
-
-    # pkg-config 描述文件
-    if [[ -d "${INSTALL_PREFIX}/lib/pkgconfig" ]]; then
-        mkdir -p "${BSP_DIR}/lib/pkgconfig"
-        cp -a "${INSTALL_PREFIX}/lib/pkgconfig/." "${BSP_DIR}/lib/pkgconfig/"
-    fi
-
-    log_ok "BSP 安装完成: ${BSP_DIR}"
-}
-
 # ==================== 主流程 ====================
 echo "========================================"
 log_info "目标架构:   ${ARCH}"
@@ -667,8 +636,6 @@ should_build openssl && build_openssl
 should_build gsoap   && build_gsoap
 should_build ffmpeg  && build_ffmpeg
 should_build opencv  && build_opencv
-
-should_build install-bsp && install_bsp
 
 # should_build m4      && build_m4
 # should_build autoconf && build_autoconf
