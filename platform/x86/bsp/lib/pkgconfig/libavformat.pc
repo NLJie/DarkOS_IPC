@@ -1,0 +1,14 @@
+prefix=/home/nlj/workspace1/P000_rk3576_zs/project_root/tools/output/x86_64
+exec_prefix=${prefix}
+libdir=/home/nlj/workspace1/P000_rk3576_zs/project_root/tools/output/x86_64/lib
+includedir=/home/nlj/workspace1/P000_rk3576_zs/project_root/tools/output/x86_64/include
+
+Name: libavformat
+Description: FFmpeg container format library
+Version: 62.12.100
+Requires: 
+Requires.private: libavcodec >= 62.28.100, libswresample >= 6.3.100, libavutil >= 60.26.100
+Conflicts:
+Libs: -L${libdir}  -lavformat 
+Libs.private: -lm -latomic -lz
+Cflags: -I${includedir}

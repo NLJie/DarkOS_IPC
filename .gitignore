@@ -1,8 +1,15 @@
 # 构建文件
 build/**
+tools/build/**
+tools/output/**
+tools/src/**
 
 # 缓存文件
 tools/src/**
+
+# BSP 动态库 (由 compile.sh install-bsp 生成，不入库)
+# platform/*/bsp/lib/*.so
+# platform/*/bsp/lib/*.so.*
 
 # 不需要共享的 IDE 配置文件
 .claude/**

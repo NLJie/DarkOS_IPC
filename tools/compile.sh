@@ -8,21 +8,27 @@ set -e
 #
 # 选项:
 #   --arch=ARCH         目标架构: x86_64(默认) 或 aarch64
+#   --platform=PLATFORM 目标平台: x86(默认) | rk3576 | rk3588s | rv1126b
+#                       (install-bsp 时决定写入哪个 platform/*/bsp 目录)
 #   --cross=PREFIX      交叉编译工具链前缀 (如 aarch64-linux-gnu-)
 #   --sysroot=PATH      交叉编译 sysroot 路径
 #   --jobs=N            并行编译线程数 (默认: nproc)
 #   --clean             编译前清理 build 目录
+#   --clean-only        只清理 build 目录，不编译
 #   --help              帮助信息
 #
 # 组件 (不指定则编译全部):
 #   mpp x264 x265 libdrm ffmpeg opencv librga rknn
 #   m4 autoconf libtool bison flex openssl gsoap all
+#   install-bsp         将编译产物安装到 platform/*/bsp 目录
 #
 # 示例:
 #   ./compile.sh                          # x86_64 编译全部
 #   ./compile.sh --arch=aarch64           # 交叉编译全部 (使用默认 aarch64-linux-gnu-)
 #   ./compile.sh --arch=aarch64 mpp x264  # 交叉编译 mpp 和 x264
 #   ./compile.sh --clean ffmpeg           # 清理后重新编译 ffmpeg
+#   ./compile.sh install-bsp              # 安装已编译产物到 x86 bsp
+#   ./compile.sh --arch=aarch64 --platform=rk3576 install-bsp
 #=============================================================================
 
 # ==================== 颜色输出 ====================
@@ -32,19 +38,21 @@ YELLOW='\e[33m'
 BLUE='\e[34m'
 RESET='\e[0m'
 
-log_info()  { echo -e "${BLUE}[INFO]${RESET}  $*"; }
-log_ok()    { echo -e "${GREEN}[OK]${RESET}    $*"; }
-log_warn()  { echo -e "${YELLOW}[WARN]${RESET}  $*"; }
-log_error() { echo -e "${RED}[ERROR]${RESET} $*"; }
+log_info()  { echo -e "${BLUE}[INFO]${RESET}  $*" >&2; }
+log_ok()    { echo -e "${GREEN}[OK]${RESET}    $*" >&2; }
+log_warn()  { echo -e "${YELLOW}[WARN]${RESET}  $*" >&2; }
+log_error() { echo -e "${RED}[ERROR]${RESET} $*" >&2; }
 
 # ==================== 默认配置 ====================
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SRC_DIR="${SCRIPT_DIR}/src"
 ARCH="x86_64"
+PLATFORM=""        # 留空则由 arch 自动推导
 CROSS_PREFIX=""
 SYSROOT=""
 JOBS=$(nproc)
 CLEAN=0
+CLEAN_ONLY=0
 COMPONENTS=()
 
 # ==================== 解析参数 ====================
@@ -56,10 +64,12 @@ show_help() {
 for arg in "$@"; do
     case "$arg" in
         --arch=*)       ARCH="${arg#*=}" ;;
+        --platform=*)   PLATFORM="${arg#*=}" ;;
         --cross=*)      CROSS_PREFIX="${arg#*=}" ;;
         --sysroot=*)    SYSROOT="${arg#*=}" ;;
         --jobs=*)       JOBS="${arg#*=}" ;;
         --clean)        CLEAN=1 ;;
+        --clean-only)   CLEAN=1; CLEAN_ONLY=1 ;;
         --help|-h)      show_help ;;
         -*)             log_error "未知选项: $arg"; show_help ;;
         *)              COMPONENTS+=("$arg") ;;
@@ -69,6 +79,15 @@ done
 # 如果是 aarch64 但未指定 cross prefix，使用默认值
 if [[ "$ARCH" == "aarch64" && -z "$CROSS_PREFIX" ]]; then
     CROSS_PREFIX="aarch64-linux-gnu-"
+fi
+
+# 根据 arch 推导默认 platform（install-bsp 使用）
+if [[ -z "$PLATFORM" ]]; then
+    case "$ARCH" in
+        x86_64) PLATFORM="x86" ;;
+        aarch64) PLATFORM="rk3576" ;;
+        *) PLATFORM="$ARCH" ;;
+    esac
 fi
 
 # 安装路径: output/<arch>/
@@ -242,8 +261,8 @@ build_x264() {
     cd "$build_dir"
     local config_args=(
         --prefix="${INSTALL_PREFIX}"
+        --disable-cli
         --enable-shared
-        --enable-static
         --enable-pic
     )
 
@@ -277,13 +296,16 @@ build_x265() {
         -DCMAKE_BUILD_TYPE=Release
         -DCMAKE_INSTALL_PREFIX="${INSTALL_PREFIX}"
         -DENABLE_SHARED=ON
-        -DENABLE_SVE2=OFF
-        -DENABLE_SVE=OFF
+        -DENABLE_CLI=OFF
         -G "Unix Makefiles"
     )
 
     if [[ "$ARCH" == "aarch64" ]]; then
-        cmake_args+=(-DCMAKE_TOOLCHAIN_FILE="$(generate_cmake_toolchain)")
+        cmake_args+=(
+            -DENABLE_SVE=OFF
+            -DENABLE_SVE2=OFF
+            -DCMAKE_TOOLCHAIN_FILE="$(generate_cmake_toolchain)"
+        )
     fi
 
     cmake "${cmake_args[@]}" "$src"
@@ -360,8 +382,9 @@ build_ffmpeg() {
         --enable-version3
         --enable-libx264
         --enable-libx265
-        --pkg-config-flags="--static"
-        --extra-cflags="-I${INSTALL_PREFIX}/include"
+        --disable-static
+        --enable-shared
+        --extra-cflags="-I${INSTALL_PREFIX}/include -fPIC"
         --extra-ldflags="-L${INSTALL_PREFIX}/lib -L${INSTALL_PREFIX}/lib64"
     )
 
@@ -394,10 +417,12 @@ build_opencv() {
     log_info "编译 OpenCV ..."
 
     cd "$build_dir"
+    # 告知 linker 在 output/lib 下查找 FFmpeg 的间接依赖 (x264/x265/swresample/avfilter)
+    local rpath_flags="-Wl,-rpath-link,${INSTALL_PREFIX}/lib -Wl,-rpath,${INSTALL_PREFIX}/lib"
+
     local cmake_args=(
         -DCMAKE_BUILD_TYPE=Release
         -DCMAKE_INSTALL_PREFIX="${INSTALL_PREFIX}"
-        -DBUILD_SHARED_LIBS=ON
         -DWITH_FFMPEG=ON
         -DWITH_GTK=OFF
         -DWITH_QT=OFF
@@ -405,6 +430,10 @@ build_opencv() {
         -DBUILD_PERF_TESTS=OFF
         -DBUILD_EXAMPLES=OFF
         -DBUILD_opencv_python3=OFF
+        -DBUILD_SHARED_LIBS=ON
+        -DBUILD_STATIC_LIBS=OFF
+        "-DCMAKE_EXE_LINKER_FLAGS=${rpath_flags}"
+        "-DCMAKE_SHARED_LINKER_FLAGS=${rpath_flags}"
         -G "Unix Makefiles"
     )
 
@@ -555,6 +584,36 @@ build_gsoap() {
     log_ok "gSOAP 编译完成"
 }
 
+# ==================== BSP 安装函数 ====================
+
+install_bsp() {
+    local BSP_DIR="${SCRIPT_DIR}/../platform/${PLATFORM}/bsp"
+    BSP_DIR="$(realpath "$BSP_DIR")"
+
+    if [[ ! -d "$(dirname "$BSP_DIR")" ]]; then
+        log_error "平台目录不存在: $(dirname "$BSP_DIR")，请检查 --platform 参数"
+        return 1
+    fi
+
+    log_info "安装 BSP 到: ${BSP_DIR} (来源: ${INSTALL_PREFIX})"
+    mkdir -p "${BSP_DIR}/include" "${BSP_DIR}/lib"
+
+    # 头文件：直接平铺复制
+    cp -a "${INSTALL_PREFIX}/include/." "${BSP_DIR}/include/"
+
+    # 动态库：只复制 .so 和版本符号链接，跳过静态库
+    find "${INSTALL_PREFIX}/lib" -maxdepth 1 \( -name "*.so" -o -name "*.so.*" \) \
+        -exec cp -a {} "${BSP_DIR}/lib/" \;
+
+    # pkg-config 描述文件
+    if [[ -d "${INSTALL_PREFIX}/lib/pkgconfig" ]]; then
+        mkdir -p "${BSP_DIR}/lib/pkgconfig"
+        cp -a "${INSTALL_PREFIX}/lib/pkgconfig/." "${BSP_DIR}/lib/pkgconfig/"
+    fi
+
+    log_ok "BSP 安装完成: ${BSP_DIR}"
+}
+
 # ==================== 主流程 ====================
 echo "========================================"
 log_info "目标架构:   ${ARCH}"
@@ -571,24 +630,51 @@ else
 fi
 echo "========================================"
 
+# --clean-only 模式：只清理，不编译
+if [[ "$CLEAN_ONLY" -eq 1 ]]; then
+    if [[ ${#COMPONENTS[@]} -eq 0 ]]; then
+        log_warn "清理所有 build 目录: ${BUILD_BASE}"
+        rm -rf "${BUILD_BASE}"
+    else
+        for c in "${COMPONENTS[@]}"; do
+            local_dir="${BUILD_BASE}/${c}"
+            if [[ -d "$local_dir" ]]; then
+                log_warn "清理 ${c} build 目录..."
+                rm -rf "$local_dir"
+            else
+                log_info "${c} build 目录不存在，跳过"
+            fi
+        done
+    fi
+    log_ok "清理完成"
+    exit 0
+fi
+
 # 预编译库安装
 should_build librga && install_librga
 should_build rknn   && install_rknn
 
-# 按依赖顺序编译
+# 瑞芯微
 should_build mpp     && build_mpp
+should_build libdrm  && build_libdrm
+
+# 按依赖顺序编译
+
 should_build x264    && build_x264
 should_build x265    && build_x265
-should_build libdrm  && build_libdrm
-should_build m4      && build_m4
-should_build autoconf && build_autoconf
-should_build libtool && build_libtool
-should_build bison   && build_bison
-should_build flex    && build_flex
+
 should_build openssl && build_openssl
 should_build gsoap   && build_gsoap
 should_build ffmpeg  && build_ffmpeg
 should_build opencv  && build_opencv
+
+should_build install-bsp && install_bsp
+
+# should_build m4      && build_m4
+# should_build autoconf && build_autoconf
+# should_build libtool && build_libtool
+# should_build bison   && build_bison
+# should_build flex    && build_flex
 
 echo "========================================"
 log_ok "所有组件编译完成! 输出目录: ${INSTALL_PREFIX}"

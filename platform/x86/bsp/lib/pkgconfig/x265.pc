@@ -1,0 +1,11 @@
+prefix=/home/nlj/workspace1/P000_rk3576_zs/project_root/tools/output/x86_64
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: x265
+Description: H.265/HEVC video encoder
+Version: 4.1
+Libs: -L${libdir} -lx265
+Libs.private: -lstdc++ -lm -lgcc_s -lgcc -lgcc_s -lgcc -lrt -ldl
+Cflags: -I${includedir}
