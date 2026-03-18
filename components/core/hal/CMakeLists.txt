@@ -17,11 +17,13 @@ if(PG_HAL_USE_RK3588S)
 	target_include_directories(hal_camera
 		PRIVATE
 			${CMAKE_SOURCE_DIR}/platform/rk3588s/port/include
-			${CMAKE_SOURCE_DIR}/components/utils/log/include
+			${CMAKE_SOURCE_DIR}/components/core/utils/log/include
 			$<TARGET_PROPERTY:pg_platform_rk3588s_headers,INTERFACE_INCLUDE_DIRECTORIES>
 	)
 
 	target_compile_definitions(hal_camera PRIVATE PG_HAL_IMPL_RK3588S=1)
+
+	# V4L2 版本不需要链接 rockit 库
 
 elseif(PG_HAL_USE_X86)
 	target_include_directories(hal_camera

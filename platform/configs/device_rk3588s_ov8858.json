@@ -1,0 +1,37 @@
+{
+  "device_name": "rk3588s_ov8858_v1",
+  "description": "RK3588S + OV8858 MIPI CSI 摄像头",
+
+  "log": {
+    "dir":          "/userdata/log",
+    "level":        "debug",
+    "max_size_mb":  10,
+    "max_backups":  5,
+    "console":      true,
+    "timestamp_ms": true
+  },
+
+  "cameras": [
+    {
+      "interface":    "mipi",
+      "dev_path":     "/dev/video0",
+      "mipi_lanes":   4,
+      "sensor":       "ov8858",
+      "width":        1920,
+      "height":       1080,
+      "fps":          30.0,
+      "pixel_format": 0
+    }
+  ],
+
+  "paths": {
+    "data_dir":  "/userdata/pg_camera",
+    "temp_dir":  "/tmp/pg_camera",
+    "media_dir": "/userdata/media"
+  },
+
+  "ai": {
+    "model_path": "/userdata/models/yolov8n_rk3588s.rknn",
+    "threshold":  0.45
+  }
+}

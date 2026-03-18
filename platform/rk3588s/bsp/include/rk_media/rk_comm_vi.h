@@ -147,6 +147,8 @@ typedef struct rkVI_DEV_ATTR_S {
     VI_HDR_MODE_E        enHdrMode;
     /* RW;Dev Set Crop size*/
     RECT_S              stCropRect;
+    /* RW; Dev Long Frame raw buffer wrap line */
+    RK_U32              u32LongFrameWrapLine;
 } VI_DEV_ATTR_S;
 
 /* The status of chn */
@@ -179,6 +181,50 @@ typedef enum rkVI_V4L2_CAPTURE_TYPE {
     /* Deprecated, do not use */
     VI_V4L2_CAPTURE_TYPE_PRIVATE              = 0x80,
 } VI_V4L2_CAPTURE_TYPE;
+
+
+/* vi mode type */
+typedef enum rkVI_MODTYPE_E {
+    VI_DEV_PIPE_MODE = 1,  /* DEV_PIPE_MODE */
+    VI_CHN_WRAP_MODE,      /* CHN_WRAP_MODE */
+    VI_BUTT
+} VI_MODTYPE_E;
+
+/* vi dev pipe mode type */
+typedef enum rkVI_DEV_PIPE_MODTYPE_E {
+    VI_DEV_PIPE_OFFLINE        = 1,  /* devx -> ddr -> pipex*/
+    VI_DEV_PIPE_ONLINE         = 2,  /* devx->pipex*/
+    VI_DEV_PIPE_LEFT_HALF_ONLINE    = 3,  /* dev0->pipe0, dev1->ddr->pipe1 */
+    VI_DEV_PIPE_RIGHT_HALF_ONLINE   = 4,  /* dev1->pipe1, dev0->ddr->pipe0 */
+    VI_DEV_PIPE_UNITE_HALF_ONLINE   = 5,  /* unite mode */
+    VI_DEV_PIPE_BUTT
+} VI_DEV_PIPE_MODTYPE_E;
+
+/* vi chn wrap mode type */
+typedef enum rkVI_CHN_WRAP_MODTYPE_E {
+    VI_CHN_WRAP_HARD        = 1,  /* vi venc use hardware wrap */
+    VI_CHN_WRAP_SOFT        = 2,  /* vi venc use software wrap */
+    VI_CHN_WRAP_BUTT
+} VI_CHN_WRAP_MODTYPE_E;
+
+/* the param of the device pipe mod */
+typedef struct rkVI_MOD_DEV_PIPE_S {
+    VI_DEV_PIPE_MODTYPE_E enDevPipeMode;    /* RW; device pipe work mode*/
+} VI_MOD_DEV_PIPE_S;
+
+/* the param of the chn wrap mod */
+typedef struct rkVI_MOD_CHN_WRAP_S {
+    VI_CHN_WRAP_MODTYPE_E enChnWrapMode;    /* RW; chan wrap mode*/
+} VI_MOD_CHN_WRAP_S;
+
+/* the param of the mod */
+typedef struct rVI_MODPARAM_S {
+    VI_MODTYPE_E enViModType;        /* RW; enViModType*/
+    union {
+        VI_MOD_DEV_PIPE_S  stDevPipeModParam;
+        VI_MOD_CHN_WRAP_S  stChnWrapModParam;
+    };
+} VI_PARAM_MOD_S;
 
 /* use for aiisp to get exposure param */
 typedef struct rkVIAIISP_EXP_PARAM {
@@ -366,8 +412,8 @@ typedef enum _rkVI_LIGHT_TYPE{
     LIGHT_TYPE_GPIO,
 } VI_LIGHT_TYPE_E;
 
-typedef struct rkVI_LIGHT_PARAM{
-    RK_U8  u8lLightType;
+typedef struct rkVI_LIGHT_PARAM {
+    RK_U8  u8LightType;
     RK_U8  u8LightEnable;
     RK_U64 u64DutyCycle;
     RK_U64 u64Period;

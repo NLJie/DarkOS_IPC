@@ -176,6 +176,7 @@ typedef enum rkPIXEL_FORMAT_E {
 
     RK_FMT_2BPP            = RK_VIDEO_FMT_BPP,
     RK_FMT_8BPP,
+    RK_FMT_1BPP,
 
     RK_FMT_RGB_BAYER_SBGGR_8BPP = RK_VIDEO_FMT_BAYER,  /* 8-bit raw                */
     RK_FMT_RGB_BAYER_SGBRG_8BPP,                       /* 8-bit raw                */
@@ -225,7 +226,8 @@ typedef enum rkVIDEO_FORMAT_E {
 
 typedef enum rkCOMPRESS_MODE_E {
     COMPRESS_MODE_NONE = 0,   /* no compress */
-    COMPRESS_AFBC_16x16,
+    COMPRESS_AFBC_16x16 = 0x1,
+    COMPRESS_RFBC_64x4 = 0x2,
 
     COMPRESS_MODE_BUTT
 } COMPRESS_MODE_E;
@@ -422,6 +424,7 @@ typedef enum rkFRAME_FLAG_E {
     FRAME_FLAG_SNAP_END    = 0x1 << 31,
     FRAME_FLAG_EOS         = 0x1 << 3,
     FRAME_FLAG_ERROR       = 0x1 << 4,
+    FRAME_FLAG_PSKIP       = 0x1 << 5,
     FRAME_FLAG_BUTT
 } FRAME_FLAG_E;
 
